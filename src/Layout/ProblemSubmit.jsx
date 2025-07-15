@@ -8,7 +8,6 @@ const HelpCenterForm = () => {
   const [problemDescription, setProblemDescription] = useState("");
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState("");
-  const [accessToken , setAccessToken] = useState(null);
   
 
   const handleSubmit = async (e) => {
@@ -21,11 +20,10 @@ const HelpCenterForm = () => {
     };
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/problem/add`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/public/problem/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-           Authorization: `Bearer ${accessToken}`
         },
         body: JSON.stringify(problemData),
       });
@@ -50,25 +48,7 @@ const HelpCenterForm = () => {
       setSubmitSuccess(false);
     }
   };
-   useEffect(() => {
-    const initAuth = async () => {
-      const { data, error } = await supabase.auth.getSession();
-      if (error) {
-        console.error("Error getting session:", error);
-        return;
-      }
-  
-      const accessToken = data.session?.access_token;
-  
-      if (accessToken) {
-        setAccessToken(accessToken);
-      } else {
-        console.warn("No access token found—user probably signed out.");
-      }
-    };
-  
-    initAuth();
-  }, []);
+
 
   return (
     <div className="problemform-container">
