@@ -1,0 +1,554 @@
+/* AudioRecorder.css - Professional Formal Design */
+
+/* CSS Variables */
+:root {
+  --primary: #a855f7;
+  --secondary: #ec4899;
+  --accent: #10b981;
+  --accent3: #10b981;
+  --accent4: #ef4444;
+  --text-primary: #333;
+  --text-gray: #bbb;
+  --bg-glass: rgba(255, 255, 255, 0.7);
+  --radius-xl: 1.5rem;
+  --radius-lg: 1rem;
+  --shadow-rainbow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 4px 16px rgba(76, 175, 80, 0.15);
+  --blur-light: blur(8px);
+  --border-gradient: linear-gradient(90deg, #a855f7, #ec4899, #10b981);
+  --transition: all 0.3s ease;
+  --green-primary: #4CAF50;
+  --green-secondary: #66BB6A;
+  --green-light: #A5D6A7;
+}
+
+/* Recorder Container */
+.recorder-box {
+  max-width: 600px;
+  /* Increased max-width for a wider box */
+  min-height: 800px;
+  width: 100%;
+  margin: 3rem auto;
+  padding: 40px;
+  background: var(--bg-glass);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-rainbow);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  backdrop-filter: var(--blur-light);
+  position: relative;
+  overflow: hidden;
+  top: 5vh;
+  transition: var(--transition);
+}
+
+/* Header */
+.recorder-header {
+  margin-bottom: 2rem;
+}
+
+.recorder-header h2 {
+  margin-bottom: 2rem;
+  background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.recorder-header p {
+  color: var(--text-primary);
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+}
+
+/* Professional Microphone Icon */
+.icon-circle {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 2rem;
+  color: white;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+  transition: var(--transition);
+  font-size: 2.5rem;
+}
+
+.icon-circle:hover {
+  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Recording Indicator */
+.recording-indicator {
+  margin: 2rem 0;
+}
+
+.audio-bars {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 0.75rem;
+}
+
+.audio-bar {
+  width: 6px;
+  background: var(--accent4);
+  border-radius: 6px;
+  transition: height 0.2s;
+}
+
+.recording-text {
+  color: var(--accent4);
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.recording-time {
+  font-family: 'Courier New', monospace;
+  font-size: 1.5rem;
+  margin-top: 0.5rem;
+  color: var(--text-primary);
+}
+
+/* Controls - Professional Green Buttons */
+.controls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.controls .btn {
+  padding: 1rem 2.5rem;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: var(--transition);
+  position: relative;
+  min-width: 140px;
+
+  /* All buttons are green - professional style */
+  background: var(--green-primary);
+  color: white;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.controls .btn:hover:not(:disabled) {
+  background: var(--green-secondary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.controls .btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(76, 175, 80, 0.2);
+}
+
+.controls .btn:disabled {
+  background: var(--text-gray);
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Preview */
+.preview-box {
+  margin-top: 2rem;
+  background: rgba(243, 244, 246, 0.8);
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.preview-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.progress-bar {
+  height: 12px;
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  border-radius: 8px;
+  width: 50%;
+  margin: 0 auto;
+}
+
+/* Actions */
+.actions {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.actions .btn {
+  padding: 1rem 2.5rem;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: var(--transition);
+  position: relative;
+  min-width: 140px;
+
+  /* All buttons are green - including validate button */
+  background: var(--green-primary);
+  color: white;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.actions .btn:hover:not(:disabled) {
+  background: var(--green-secondary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.actions .btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(76, 175, 80, 0.2);
+}
+
+.actions .btn:disabled {
+  background: var(--text-gray);
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Uploading Message */
+.uploading-message {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text-primary);
+}
+
+/* Spinner */
+.spinner {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 4px solid rgba(168, 85, 247, 0.2);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+/* Success/Error Messages */
+.recorder-box p.success {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--accent3);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  font-weight: 600;
+  border-radius: var(--radius-lg);
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  font-size: 1.125rem;
+}
+
+.recorder-box p.error {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--accent4);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  font-weight: 600;
+  border-radius: var(--radius-lg);
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  font-size: 1.125rem;
+}
+
+/* Animations */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Responsive Design */
+
+/* Desktop Large (1400px and up) */
+@media (min-width: 1400px) {
+  .recorder-box {
+    max-width: 650px;
+    /* Adjusted for even wider desktop view */
+    min-height: 700px;
+    padding: 3rem;
+  }
+
+  .recorder-header h2 {
+    font-size: 2.5rem;
+  }
+
+  .icon-circle {
+    width: 110px;
+    height: 110px;
+    font-size: 2.75rem;
+  }
+
+  .controls .btn {
+    padding: 1.25rem 3rem;
+    font-size: 1.2rem;
+  }
+}
+
+/* Desktop (1200px to 1399px) */
+@media (max-width: 1399px) and (min-width: 1200px) {
+  .recorder-box {
+    max-width: 550px;
+    /* Adjusted */
+    min-height: 600px;
+    padding: 2.5rem;
+  }
+}
+
+/* Laptop (992px to 1199px) */
+@media (max-width: 1199px) and (min-width: 992px) {
+  .recorder-box {
+    max-width: 500px;
+    /* Adjusted */
+    min-height: 550px;
+    padding: 2rem;
+  }
+
+  .recorder-header h2 {
+    font-size: 2rem;
+  }
+
+  .icon-circle {
+    width: 90px;
+    height: 90px;
+    font-size: 2.25rem;
+  }
+
+  .controls .btn {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    min-width: 120px;
+  }
+}
+
+/* Tablet (768px to 991px) */
+@media (max-width: 991px) and (min-width: 768px) {
+  .recorder-box {
+    max-width: 80%;
+    /* Slightly more constrained for tablet */
+    min-height: 500px;
+    padding: 2rem;
+    margin: 2rem auto;
+  }
+
+  .recorder-header h2 {
+    font-size: 1.875rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .icon-circle {
+    width: 85px;
+    height: 85px;
+    font-size: 2rem;
+  }
+
+  .controls {
+    gap: 0.75rem;
+  }
+
+  .controls .btn {
+    padding: 0.875rem 1.75rem;
+    font-size: 1rem;
+    min-width: 110px;
+  }
+}
+
+/* Mobile Large (480px to 767px) - Refined breakpoint */
+@media (max-width: 767px) and (min-width: 480px) {
+  .recorder-box {
+    max-width: 90%;
+    min-height: 450px;
+    padding: 1.5rem;
+    margin: 1.5rem auto;
+    top: 2vh;
+  }
+
+  .recorder-header h2 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .recorder-header p {
+    font-size: 1rem;
+  }
+
+  .icon-circle {
+    width: 80px;
+    height: 80px;
+    font-size: 1.875rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .controls {
+    gap: 0.75rem;
+    /* Adjusted for better spacing */
+  }
+
+  .controls .btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+    min-width: 110px;
+  }
+
+  .recording-time {
+    font-size: 1.25rem;
+  }
+}
+
+
+/* Mobile (up to 479px) - Combined and refined for a beautiful mobile experience */
+@media (max-width: 479px) {
+  .recorder-box {
+    padding: 1.25rem;
+    /* Slightly more padding for better look */
+    min-height: 380px;
+    margin-top: 1rem;
+    /* Reduced top margin for better screen utilization */
+    top: 0;
+    max-width: 95%;
+    /* Allow it to take more width on very small screens */
+    border-radius: var(--radius-lg);
+    /* Slightly smaller border radius for smaller screens */
+  }
+
+  .recorder-header {
+    margin-bottom: 1.5rem;
+    /* Reduced margin */
+  }
+
+  .recorder-header h2 {
+    font-size: 1.6rem;
+    /* Slightly larger for better readability */
+    margin-bottom: 1rem;
+  }
+
+  .recorder-header p {
+    font-size: 0.95rem;
+    /* Slightly smaller for compactness */
+    margin-bottom: 1rem;
+  }
+
+  .icon-circle {
+    width: 75px;
+    /* Slightly larger icon */
+    height: 75px;
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .controls {
+    flex-direction: column;
+    /* Stack buttons vertically */
+    align-items: stretch;
+    /* Stretch buttons to full width */
+    gap: 0.75rem;
+    /* Consistent gap */
+    margin: 1.5rem 0;
+    /* Adjusted margin */
+  }
+
+  .controls .btn {
+    padding: 0.8rem 1rem;
+    /* Comfortable padding */
+    font-size: 1rem;
+    /* Readable font size */
+    width: auto;
+    /* Allow auto width due to stretch */
+    min-width: unset;
+    /* Remove min-width constraint */
+  }
+
+  .recording-text {
+    font-size: 1.1rem;
+    /* Slightly larger for readability */
+  }
+
+  .recording-time {
+    font-size: 1.3rem;
+    /* Enhanced visibility */
+  }
+
+  .preview-box {
+    padding: 1rem;
+    /* More compact */
+    margin-top: 1.5rem;
+  }
+
+  .actions {
+    flex-direction: column;
+    /* Stack action buttons vertically */
+    align-items: stretch;
+    /* Stretch action buttons to full width */
+    gap: 0.75rem;
+    /* Consistent gap */
+    margin-top: 1.5rem;
+  }
+
+  .actions .btn {
+    padding: 0.8rem 1rem;
+    /* Comfortable padding */
+    font-size: 1rem;
+    /* Readable font size */
+    width: auto;
+    /* Allow auto width due to stretch */
+    min-width: unset;
+    /* Remove min-width constraint */
+  }
+
+  .recorder-box p.success,
+  .recorder-box p.error {
+    padding: 1rem;
+    /* More compact messages */
+    font-size: 1rem;
+  }
+
+  .spinner {
+    width: 2rem;
+    height: 2rem;
+  }
+}
