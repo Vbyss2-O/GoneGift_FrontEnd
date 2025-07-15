@@ -119,8 +119,7 @@ const UserDetailsForm = () => {
         userRole: "general",
         isdeceased: false,
         attemptCount: 0,
-        nextBuddyDate: null,
-        lastInteraction: null,
+        lastInteraction: new Date().toISOString(),
         buddyStatus: "CHILLING",
         hashuuid: hashedUuid,
         secretKey: encryptedKey, // Use the returned value directly
