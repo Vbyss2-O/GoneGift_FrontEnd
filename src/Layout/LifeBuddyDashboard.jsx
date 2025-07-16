@@ -73,7 +73,12 @@ const LifeBuddyDashboard = () => {
     setError(null);
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/lifebuddy/activities/${userId}`
+        `${import.meta.env.VITE_API_URL}/lifebuddy/activities/${userId}`,
+         {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
       );
       setActivities(Array.isArray(response.data) ? response.data : []);
     } catch (err) {

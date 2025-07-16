@@ -240,7 +240,7 @@ const Dashboard = () => {
     }}
           >
             <h1>Welcome back, {userData?.firstName}!</h1>
-            <p>
+            {/* <p>
               {new Date().toLocaleDateString("en-US", {
                 weekday: "long",
                 year: "numeric",
@@ -248,6 +248,7 @@ const Dashboard = () => {
                 day: "numeric",
               })}
             </p>
+            <br /> */}
               
               <MonitoringToggle
                 userId={userData?.userIdX}
