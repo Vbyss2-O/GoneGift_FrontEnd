@@ -41,16 +41,12 @@ const GoogleLoginPage = () => {
       if (existingUser) {
         // if user exists but has not filled primary info, redirect to /primaryinfo
         if (!existingUser.first_name || existingUser.first_name.trim() === "") {
-          console.log(
-            "User found but primary info not filled, redirecting to /primaryinfo"
-          );
+          
           navigate("/primaryinfo");
           return;
         }
         // user exists and has filled primary info, go to dashboard
-        console.log(
-          "Existing user found in death_user, redirecting to /death-dashboard"
-        );
+        
         navigate("/death-dashboard");
         return;
       }
@@ -71,7 +67,6 @@ const GoogleLoginPage = () => {
         return;
       }
 
-      console.log("New user added, redirecting to /primaryinfo");
       navigate("/primaryinfo");
     } catch (err) {
       console.error("Error in post-login flow:", err.message);
@@ -92,7 +87,6 @@ const GoogleLoginPage = () => {
         } = await supabase.auth.getUser();
 
         if (userError || !user) {
-          console.log("No user logged in");
           setLoading(false);
           return;
         }
@@ -113,10 +107,8 @@ const GoogleLoginPage = () => {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_IN" && session) {
-        console.log("User signed in, running post-login logic");
         handlePostLogin();
       } else if (event === "SIGNED_OUT") {
-        console.log("User signed out, redirecting to /login");
         setLoading(false);
         navigate("/login");
       }

@@ -41,7 +41,6 @@ const ProtectedRoute = ({ children, redirectTo = "/login" }) => {
     checkSession();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log("ProtectedRoute auth event:", event, "Session:", session);
       setSession(session);
       if (event === "SIGNED_IN" && session) {
         checkSession();
