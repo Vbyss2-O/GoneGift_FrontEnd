@@ -13,19 +13,19 @@ const LifeBuddyAbout = () => {
         <h2 className="lifebuddyabout-subtitle">How it Works:</h2>
         <ul className="lifebuddyabout-list">
           <li>
-            <span className="lifebuddyabout-stage">CHILLING:</span> The default state. You're considered active. No alerts.
+            <span className="lifebuddyabout-stage">CHILLING:</span> The default state. You're considered active. No alerts till 90 days no activity.
           </li>
           <li>
-            <span className="lifebuddyabout-stage">CHILLING1:</span> After 20 days of no activity, LifeBuddy sends a first check-in message. If you don't respond, the system escalates.
+            <span className="lifebuddyabout-stage">CHILLING1:</span> After 95 days of no activity, LifeBuddy sends a first check-in message. If you don't respond, the system escalates.
           </li>
           <li>
-            <span className="lifebuddyabout-stage">CURIOUS:</span> After 21 days of no activity and no response, another message is sent expressing concern.
+            <span className="lifebuddyabout-stage">CURIOUS:</span> After 110 days of no activity and no response, another message is sent expressing concern.
           </li>
           <li>
-            <span className="lifebuddyabout-stage">WORRIED:</span> After 22 days, LifeBuddy sends a stronger warning and checks again.
+            <span className="lifebuddyabout-stage">WORRIED:</span> After 120 days no Response, LifeBuddy sends a stronger warning and checks again.
           </li>
           <li>
-            <span className="lifebuddyabout-stage">GOODBYE:</span> After 23 days, LifeBuddy assumes something may have gone seriously wrong and sends a goodbye notification.
+            <span className="lifebuddyabout-stage">GOODBYE:</span> After 140 days no Response, LifeBuddy assumes something may have gone seriously wrong and sends a goodbye notification.
           </li>
           <li>
             <span className="lifebuddyabout-stage">Deceased Trigger:</span> If no activity even after the goodbye message and the system confirms no response, it marks you as deceased and triggers a digital death protocol.

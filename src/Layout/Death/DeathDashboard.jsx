@@ -231,12 +231,13 @@ const Dashboard = () => {
           <div
             className="user-welcome"
             style={{
-              position: "relative",
-              padding: "20px",
-              border: "1px solid #ccc",
-              borderRadius: "8px",
-              overflow: "hidden", // this keeps children inside
-            }}
+      padding: "20px",
+      border: "1px solid #ccc",
+      borderRadius: "8px",
+      // You can remove these if they are not needed for other elements within user-welcome
+      // position: "relative", // REMOVE THIS
+      // overflow: "hidden",   // REMOVE THIS
+    }}
           >
             <h1>Welcome back, {userData?.firstName}!</h1>
             <p>
@@ -247,20 +248,11 @@ const Dashboard = () => {
                 day: "numeric",
               })}
             </p>
-            <div
-              style={{
-                position: "absolute",
-                top: "10px",
-                right: "10px",
-                maxWidth: "100%",
-                boxSizing: "border-box",
-              }}
-            >
+              
               <MonitoringToggle
                 userId={userData?.userIdX}
                 initialEnabled={true}
               />
-            </div>
           </div>
           <div className="user-profile"></div>
         </header>
