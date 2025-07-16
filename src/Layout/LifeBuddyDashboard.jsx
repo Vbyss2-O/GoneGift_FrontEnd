@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 import "./LifeBuddy.css"; // Import your CSS styles
 import BackButton from "./components/BackButton"; // Import the BackButton component
-import MonitoringToggle from "./components/MonitoringToggle"; // Assuming this is the correct path
 
 const LifeBuddyDashboard = () => {
   const [userIdX, setUserIdX] = useState(null);
@@ -234,13 +233,6 @@ const LifeBuddyDashboard = () => {
           />
         </center>
 
-        {/* You might want to consider adding a MonitoringToggle here if it's relevant to the dashboard */}
-        {userx?.userIdX && ( // Render only if user data is available
-            <MonitoringToggle
-                userId={userx.userIdX} // Assuming userIdX is the correct prop name for the toggle
-                initialEnabled={userx.isMonitoringEnabled} // Assuming you have a field for this
-            />
-        )}
 
 
         {error && <p className="error">{error}</p>}
