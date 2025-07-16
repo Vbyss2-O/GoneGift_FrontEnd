@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "../Death/supabaseClient";
 import "./GoogleLoginPage.css"; // Import your CSS styles
 import { Link } from "react-router-dom";
+import GoneGiftLogo from "../components/GoneGiftLogo"
 
 const GoogleLoginPage = () => {
   const navigate = useNavigate();
@@ -139,7 +140,7 @@ const GoogleLoginPage = () => {
       <header className="header">
         <div className="header-content">
           <div className="logo">
-            <h2>GoneGift</h2>
+            <h2><GoneGiftLogo/></h2>
           </div>
           <nav className="nav">
             <Link to="/feathers">Features</Link>
