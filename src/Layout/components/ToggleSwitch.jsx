@@ -13,7 +13,7 @@ const MonitoringToggle = ({ userId, initialEnabled }) => {
     try {
       const newStatus = !enabled;
       await axios.put(
-        `http://localhost:8080/api/deathusers/toggle/${userId}?enabled=${newStatus}`,
+        `${import.meta.env.VITE_API_URL}/api/deathusers/toggle/${userId}?enabled=${newStatus}`,
         {},
         {
           headers: {
