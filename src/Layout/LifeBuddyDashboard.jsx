@@ -33,7 +33,12 @@ const LifeBuddyDashboard = () => {
 
         // Fetch DeathUser data
         const userResponse = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/deathusers/${user.id}`
+          `${import.meta.env.VITE_API_URL}/api/deathusers/${user.id}`,
+          {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          }
+        }
         );
         setUserX(userResponse.data);
 
@@ -77,7 +82,7 @@ const LifeBuddyDashboard = () => {
          {
           headers: {
             Authorization: `Bearer ${accessToken}`,
-          },
+          }
         }
       );
       setActivities(Array.isArray(response.data) ? response.data : []);
