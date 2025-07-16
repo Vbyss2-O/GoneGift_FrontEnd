@@ -289,7 +289,7 @@ const LetterEditor = () => {
             <label style={styles.label}>UUID</label>
             <input
               type="text"
-              placeholder="Enter UUID"
+              placeholder="Enter ID"
               value={uuid}
               onChange={(e) => setUuid(e.target.value)}
               style={styles.input}

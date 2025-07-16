@@ -166,7 +166,7 @@ const UserDetailsForm = () => {
       setLoading(false);
     }
   };
- function showCredentialsBox(uuid, password) {
+function showCredentialsBox(uuid, password) {
   // Create overlay
   const overlay = document.createElement("div");
   overlay.style.position = "fixed";
@@ -201,7 +201,10 @@ const UserDetailsForm = () => {
       <button id="copyPassword" style="margin-left:8px; font-size:1em;">Copy</button>
     </div>
     <p style="font-size:14px;color:#555;">Do not share this with anyone except your beneficiary.</p>
-    <button id="closeBox" style="margin-top:16px;padding:12px 24px;background:#007bff;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:1em;">Close</button>
+    <div style="display:flex; gap:8px; margin-top:16px; flex-wrap: wrap;">
+      <button id="downloadFile" style="flex:1;padding:12px 24px;background:#28a745;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:1em;">Download .txt</button>
+      <button id="closeBox" style="flex:1;padding:12px 24px;background:#007bff;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:1em;">Close</button>
+    </div>
   `;
 
   overlay.appendChild(box);
@@ -213,6 +216,20 @@ const UserDetailsForm = () => {
   };
   box.querySelector("#copyPassword").onclick = () => {
     navigator.clipboard.writeText(password);
+  };
+
+  // Download handler
+  box.querySelector("#downloadFile").onclick = () => {
+    const textContent = `ID: ${uuid}\nPassword: ${password}`;
+    const blob = new Blob([textContent], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "gonegift-credentials.txt";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   // Close handler
@@ -262,6 +279,7 @@ const UserDetailsForm = () => {
     };
   };
 }
+
 
 
 
