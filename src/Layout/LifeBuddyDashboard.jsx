@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 import "./LifeBuddy.css"; // Import your CSS styles
 import BackButton from "./components/BackButton"; // Import the BackButton component
+import MonitoringToggle from "./components/MonitoringToggle"; // Assuming this is the correct path
 
 const LifeBuddyDashboard = () => {
   const [userIdX, setUserIdX] = useState(null);
@@ -17,9 +18,39 @@ const LifeBuddyDashboard = () => {
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState(null);
 
-  // Fetch userIdX and initial DeathUser data from Supabase and API on mount
+  // Effect to get the access token from Supabase session
+  useEffect(() => {
+    const initAuth = async () => {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) {
+        console.error("Error getting session:", error);
+        setError("Failed to authenticate session."); // Set error for the user
+        return;
+      }
+
+      const token = data.session?.access_token;
+
+      if (token) {
+        setAccessToken(token);
+      } else {
+        console.warn("No access token found—user probably signed out.");
+        // If no token, and it's needed for the dashboard, consider redirecting to login
+        // setError("User not authenticated. Please log in."); // Can also set error here
+      }
+    };
+
+    initAuth();
+  }, []); // Run only once on component mount
+
+  // Fetch userIdX and initial DeathUser data from Supabase and API
+  // This effect now depends on `accessToken`
   useEffect(() => {
     const fetchUserData = async () => {
+      if (!accessToken) {
+        // Don't proceed if accessToken is not available yet
+        return;
+      }
+
       try {
         const {
           data: { user },
@@ -35,54 +66,37 @@ const LifeBuddyDashboard = () => {
         const userResponse = await axios.get(
           `${import.meta.env.VITE_API_URL}/api/deathusers/${user.id}`,
           {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
           }
-        }
         );
         setUserX(userResponse.data);
 
-        fetchActivities(user.id);
+        // Now fetch activities, passing accessToken
+        fetchActivities(user.id, accessToken); // Pass accessToken here
       } catch (err) {
         setError("Failed to fetch user data. Please log in.");
         console.error(err);
       }
     };
+
     fetchUserData();
-  }, []);
-
-  useEffect(() => {
-    const initAuth = async () => {
-      const { data, error } = await supabase.auth.getSession();
-      if (error) {
-        console.error("Error getting session:", error);
-        return;
-      }
-
-      const accessToken = data.session?.access_token;
-
-      if (accessToken) {
-        setAccessToken(accessToken);
-      } else {
-        console.warn("No access token found—user probably signed out.");
-      }
-    };
-
-    initAuth();
-  }, []);
+  }, [accessToken]); // Rerun when accessToken changes from null to a valid token
 
   // Fetch LifeBuddy activities for the user
-  const fetchActivities = async (userId) => {
-    if (!userId) return;
+  // This function now explicitly accepts accessToken
+  const fetchActivities = async (userId, token) => {
+    if (!userId || !token) return; // Ensure both are available
     setLoading(true);
     setError(null);
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/lifebuddy/activities/${userId}`,
-         {
+        {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
-          }
+            Authorization: `Bearer ${token}`, // Use the passed token
+          },
         }
       );
       setActivities(Array.isArray(response.data) ? response.data : []);
@@ -104,6 +118,11 @@ const LifeBuddyDashboard = () => {
       setReplyStatus("Please provide a reply message");
       return;
     }
+    if (!accessToken) {
+      setReplyStatus("Authentication token missing. Please log in again.");
+      return;
+    }
+
     setReplyStatus(null);
     try {
       await axios.delete(
@@ -118,13 +137,13 @@ const LifeBuddyDashboard = () => {
       console.log("Previous logs deleted successfully Thank You!");
     } catch (err) {
       console.error("Failed to delete previous logs:", err);
+      // Decide if you want to stop here or proceed to add new log even if delete failed
+      // For now, it proceeds.
     }
     try {
       const token = uuidv4();
       const response = await axios.get(
-        `${
-          import.meta.env.VITE_API_URL
-        }/buddy?userId=${userIdX}&token=${token}`,
+        `${import.meta.env.VITE_API_URL}/buddy?userId=${userIdX}&token=${token}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -133,12 +152,11 @@ const LifeBuddyDashboard = () => {
       );
       setReplyStatus(response.data);
       setReplyMessage("");
-      fetchActivities(userIdX);
+      fetchActivities(userIdX, accessToken); // Ensure accessToken is passed
     } catch (err) {
       setReplyStatus("Failed to send reply. Try again!");
       console.error(err);
     }
-    //delete prev logs now
   };
 
   async function goToInfoPage() {
@@ -148,7 +166,7 @@ const LifeBuddyDashboard = () => {
   // Update DeathUser when replyStatus is not null
   useEffect(() => {
     const updateDeathUser = async () => {
-      if (!replyStatus || replyStatus.includes("Failed")) return;
+      if (!replyStatus || replyStatus.includes("Failed") || !userIdX || !accessToken) return; // Add accessToken check
 
       try {
         const userResponse = await axios.get(
@@ -185,7 +203,7 @@ const LifeBuddyDashboard = () => {
     };
 
     updateDeathUser();
-  }, [replyStatus, userIdX]);
+  }, [replyStatus, userIdX, accessToken]); // Add accessToken to dependencies
 
   return (
     <>
@@ -194,9 +212,15 @@ const LifeBuddyDashboard = () => {
         <center>
           <h1>Buddy's Dashboard</h1>
         </center>
+        {/* Adjusted style to remove fixed positioning for the about icon */}
         <button
           onClick={goToInfoPage}
-          style={{ all: "unset", cursor: "pointer" }}
+          style={{
+            all: "unset",
+            cursor: "pointer",
+            display: "block", // Ensures it takes up its own line
+            margin: "0 auto 20px", // Centers it and adds space below
+          }}
         >
           <img src="/about.png" alt="About icon" className="lifebuddy-about" />
         </button>
@@ -209,6 +233,15 @@ const LifeBuddyDashboard = () => {
             className="lifebuddy-icon"
           />
         </center>
+
+        {/* You might want to consider adding a MonitoringToggle here if it's relevant to the dashboard */}
+        {userx?.userIdX && ( // Render only if user data is available
+            <MonitoringToggle
+                userId={userx.userIdX} // Assuming userIdX is the correct prop name for the toggle
+                initialEnabled={userx.isMonitoringEnabled} // Assuming you have a field for this
+            />
+        )}
+
 
         {error && <p className="error">{error}</p>}
 
@@ -252,8 +285,7 @@ const LifeBuddyDashboard = () => {
           />
           <button
             onClick={handleReply}
-            disabled={!userIdX || !replyMessage.trim()}
-            //make button text black
+            disabled={!userIdX || !replyMessage.trim() || !accessToken} // Disable if no accessToken
             style={{ background: "green", color: "white" }}
           >
             Send Reply
