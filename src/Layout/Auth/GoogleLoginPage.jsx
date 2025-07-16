@@ -41,12 +41,11 @@ const GoogleLoginPage = () => {
       if (existingUser) {
         // if user exists but has not filled primary info, redirect to /primaryinfo
         if (!existingUser.first_name || existingUser.first_name.trim() === "") {
-          
           navigate("/primaryinfo");
           return;
         }
         // user exists and has filled primary info, go to dashboard
-        
+
         navigate("/death-dashboard");
         return;
       }
@@ -143,14 +142,9 @@ const GoogleLoginPage = () => {
             <h2>GoneGift</h2>
           </div>
           <nav className="nav">
+            <Link to="/feathers">Features</Link>
 
-            <Link to="/feathers">
-              Features
-            </Link>
-
-            <Link to="/about">
-              About
-            </Link>
+            <Link to="/about">About</Link>
           </nav>
         </div>
       </header>
@@ -259,7 +253,7 @@ const GoogleLoginPage = () => {
                   <div className="alternative-login">
                     <p className="alternative-text">
                       Don't have a Google account?{" "}
-                      <a href="/help">Help Center</a>
+                      <Link to="/help">help center</Link>
                     </p>
                   </div>
                 </div>
@@ -279,17 +273,30 @@ const GoogleLoginPage = () => {
             <p style={{ color: "gray" }}>
               Creating meaningful connections beyond time
             </p>
-            <div className="social-links"  style={{ display: "flex", gap: "0.75rem" }}>
+            <div
+              className="social-links"
+              style={{ display: "flex", gap: "0.75rem" }}
+            >
               <a href="#" aria-label="Instagram">
                 {/* Instagram SVG */}
-                <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <svg
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm0 2h10c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 3H7c-1.654 0-3-1.346-3-3V7c0-1.654 1.346-3 3-3zm5 3a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6zm4.5-.5a1 1 0 100 2 1 1 0 000-2z" />
                 </svg>
               </a>
-              
+
               <a href="#" aria-label="LinkedIn">
                 {/* LinkedIn SVG */}
-                <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <svg
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM0 8h5v15H0V8zm7 0h4.6v2.2h.1c.64-1.2 2.2-2.5 4.4-2.5 4.7 0 5.6 3.1 5.6 7.1V23H17v-6.8c0-1.6 0-3.7-2.2-3.7-2.2 0-2.5 1.8-2.5 3.6V23H7V8z" />
                 </svg>
               </a>
@@ -309,13 +316,13 @@ const GoogleLoginPage = () => {
             <h4>Support</h4>
             <ul>
               <li>
-                <a href="/help">Help Center</a>
+                <Link to="/help">help</Link>
               </li>
               <li>
-                <a href="/userGuides">User Guides</a>
+                <Link to="/userGuides">User Guides</Link>
               </li>
               <li>
-                <a href="/community">Community</a>
+                <Link to="/community">Community</Link>
               </li>
             </ul>
           </div>
@@ -324,7 +331,7 @@ const GoogleLoginPage = () => {
             <h4>Legal</h4>
             <ul>
               <li>
-                <a href="/privacy">Privacy Policy</a>
+                <Link to="/privacy">Privacy Policy</Link>
               </li>
             </ul>
           </div>
@@ -335,7 +342,6 @@ const GoogleLoginPage = () => {
           <p>Made with ❤️ for preserving memories</p>
         </div>
       </footer>
-
     </div>
   );
 };
