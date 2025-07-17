@@ -186,7 +186,7 @@ useEffect(() => {
       return;
     }
     if (!uuid.trim() || !password.trim()) {
-      setMessage("UUID and password are required.");
+      setMessage("ID and password are required.");
       return;
     }
     setLoading(true);
@@ -204,10 +204,10 @@ useEffect(() => {
       if (response.status === 200) {
         setIsValidated(true);
         await getEncryptedKey(currentUser.id);
-        setMessage("UUID validated successfully. You can now generate a token.");
+        setMessage("ID validated successfully. You can now generate a token.");
       } else {
         setIsValidated(false);
-        setMessage("Invalid UUID or password. Please try again.");
+        setMessage("Invalid ID or password. Please try again.");
       }
     } catch (error) {
       console.error("Validation error:", error);
@@ -258,7 +258,7 @@ useEffect(() => {
   const generateTokenAndSave = async () => {
     try {
       if (!currentUser || !encryptedAESKeyData) {
-        setMessage("Please validate UUID and ensure key data is fetched.");
+        setMessage("Please validate ID and ensure key data is fetched.");
         return;
       }
 
@@ -388,10 +388,10 @@ useEffect(() => {
       </div>
       <br />
       <div className="form-box">
-        <label style={{color : "Black"}}>UUID</label>
+        <label style={{color : "Black"}}>ID</label>
         <input
           type="text"
-          placeholder="Enter UUID"
+          placeholder="Enter ID"
           value={uuid}
           onChange={(e) => setUuid(e.target.value)}
           disabled={loading || isValidated} // Disable after validation

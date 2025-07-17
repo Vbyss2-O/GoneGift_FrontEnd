@@ -77,7 +77,7 @@ const DeathReportForm = () => {
       return;
     }
     if (!secretId.trim() || !password.trim()) {
-      setMessage("UUID and password are required.");
+      setMessage("ID and password are required.");
       return;
     }
 
@@ -109,17 +109,17 @@ const DeathReportForm = () => {
 
       if (response.status === 200 && check.data !== hashedToken) {
         setIsUuidValid(true);
-        setMessage("UUID validated successfully. You can now upload a file.");
+        setMessage("ID validated successfully. You can now upload a file.");
         setKey(hashedToken); // Store the hashed token for later use
       } else {
         setIsUuidValid(false);
-        setMessage("Invalid UUID or password. Please check and try again.");
+        setMessage("Invalid ID or password. Please check and try again.");
       }
     } catch (error) {
       console.error("Validation error:", error);
       setIsUuidValid(false);
       if (error.response && error.response.status === 404) {
-        setMessage("Validation endpoint not found or invalid UUID/password.");
+        setMessage("Validation endpoint not found or invalid ID/password.");
       } else {
         setMessage(
           `Validation failed: ${error.message || "Please try again."}`
@@ -251,7 +251,7 @@ const DeathReportForm = () => {
               disabled={loading}
               style={{ ...styles.button, background: "green" }}
             >
-              {loading ? "Validating..." : "Validate UUID"}
+              {loading ? "Validating..." : "Validate ID"}
             </button>
           )}
           <fieldset

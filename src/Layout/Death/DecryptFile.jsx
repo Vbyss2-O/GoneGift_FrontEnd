@@ -91,7 +91,7 @@ const DecryptFile = () => {
       } else {
         setIsUuidValid(false);
         setMessage({
-          text: "Invalid UUID and Password. Please enter correct Secrets.",
+          text: "Invalid ID and Password. Please enter correct Secrets.",
           isSuccess: false,
         });
       }
@@ -289,7 +289,7 @@ const DecryptFile = () => {
       const decryptedKey = await decryptKey(uuid.trim(), encryptedAesKey, password.trim());
 
       if (!decryptedKey) {
-        throw new Error("Invalid UUID or password. Cannot decrypt files.");
+        throw new Error("Invalid ID or password. Cannot decrypt files.");
       }
 
       const decryptedFileList = await Promise.all(
@@ -449,7 +449,7 @@ const DecryptFile = () => {
 
   const showAllFileStoredOfSharedSpace = async () => {
     if (!isUuidValid) {
-      setSharedFileMessage("Please validate your UUID and password first.");
+      setSharedFileMessage("Please validate your ID and password first.");
       return;
     }
 
@@ -583,13 +583,13 @@ const DecryptFile = () => {
           Please enter the secrets of the person whose assets you are going to claim!
         </h3>
         <div className="decryptfile-inputgroup">
-          <label htmlFor="uuid" className="decryptfile-label">Enter UUID:</label>
+          <label htmlFor="uuid" className="decryptfile-label">Enter ID:</label>
           <input
             id="uuid"
             type="text"
             value={uuid}
             onChange={(e) => setUuid(e.target.value)}
-            placeholder="Enter UUID"
+            placeholder="Enter ID"
             className="decryptfile-input"
             autoComplete="off"
           />

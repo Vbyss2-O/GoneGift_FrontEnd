@@ -250,7 +250,7 @@ const FileUpload = () => {
     }
     if (!decryptedKey) {
       setMessage({
-        text: "Encryption setup not ready. Please validate your UUID first.",
+        text: "Encryption setup not ready. Please validate your ID/Password first.",
         isSuccess: false,
       });
       return;

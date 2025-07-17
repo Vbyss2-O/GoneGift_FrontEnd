@@ -145,7 +145,7 @@ const UploadPage = () => {
       return;
     }
     if (!uuid.trim() || !password.trim()) {
-      setMessage("UUID and password are required.");
+      setMessage("ID and password are required.");
       return;
     }
     setLoading(true);
@@ -165,10 +165,10 @@ const UploadPage = () => {
         setEncryptedAesKey(encryptedKeyData);
 
         setIsUuidValid(true);
-        setMessage("UUID validated successfully. You can now record audio.");
+        setMessage("ID validated successfully. You can now record audio.");
       } else {
         setIsUuidValid(false);
-        setMessage("Invalid UUID or password. Please try again.");
+        setMessage("Invalid ID or password. Please try again.");
       }
     } catch (error) {
       console.error("Validation error:", error);
@@ -202,7 +202,7 @@ const UploadPage = () => {
   // Start recording
   const startRecording = async () => {
     if (!isUuidValid) {
-      setMessage("Please validate UUID and password first.");
+      setMessage("Please validate ID and password first.");
       return;
     }
     try {
