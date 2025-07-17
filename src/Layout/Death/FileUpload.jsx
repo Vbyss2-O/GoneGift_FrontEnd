@@ -15,8 +15,7 @@ const FileUpload = () => {
   const [uuid, setUuid] = useState("");
   const [password, setPassword] = useState("");
   const [isUuidValid, setIsUuidValid] = useState(false);
-  const [accessToken , setAccessToken] = useState(null);
-  
+  const [accessToken, setAccessToken] = useState(null);
 
   const hashWithSalt = async (x) => {
     const salt = x.substring(0, 16);
@@ -28,25 +27,26 @@ const FileUpload = () => {
       .map((b) => b.toString(16).padStart(2, "0"))
       .join("");
   };
-useEffect(() => {
-  const initAuth = async () => {
-    const { data, error } = await supabase.auth.getSession();
-    if (error) {
-      console.error("Error getting session:", error);
-      return;
-    }
 
-    const accessToken = data.session?.access_token;
+  useEffect(() => {
+    const initAuth = async () => {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) {
+        console.error("Error getting session:", error);
+        return;
+      }
 
-    if (accessToken) {
-      setAccessToken(accessToken);
-    } else {
-      console.warn("No access token found—user probably signed out.");
-    }
-  };
+      const accessToken = data.session?.access_token;
 
-  initAuth();
-}, []);
+      if (accessToken) {
+        setAccessToken(accessToken);
+      } else {
+        console.warn("No access token found—user probably signed out.");
+      }
+    };
+
+    initAuth();
+  }, []);
 
   const fetchCurrentUser = async () => {
     const {
@@ -67,7 +67,8 @@ useEffect(() => {
   const getEncryptedKey = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/deathusers/getKey/${currentUser.id
+        `${import.meta.env.VITE_API_URL}/api/deathusers/getKey/${
+          currentUser.id
         }`,
         {
           headers: {
@@ -141,8 +142,7 @@ useEffect(() => {
       const input = uuid.trim() + "Vedant_Kasar" + password.trim();
       const hashedToken = await hashWithSalt(input);
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL
-        }/api/deathusers/findHashToken/${hashedToken}`,
+        `${import.meta.env.VITE_API_URL}/api/deathusers/findHashToken/${hashedToken}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -272,7 +272,7 @@ useEffect(() => {
       const originalName = file.name.replace(/\.[^/.]+$/, ""); // Remove original extension
       const safeName = originalName.replace(/[^\w\-]+/g, "_");
 
-      // Get original extension  if you want to keep it as part of the encrypted name
+      // Get original extension if you want to keep it as part of the encrypted name
       // For example, ".webm"
       const extensionMatch = file.name.match(/\.[^/.]+$/);
       const originalExtension = extensionMatch ? extensionMatch[0] : "";
@@ -343,9 +343,12 @@ useEffect(() => {
       <div className="file-upload">
         <h2>Upload File</h2>
         <div className="uuid-section">
-          <div className="uuid-container">
-            <label className="uuid-label">ID</label>
+          <div className="input-group">
+            <label htmlFor="uuid-input" className="uuid-label">
+              ID
+            </label>
             <input
+              id="uuid-input"
               type="text"
               placeholder="Enter ID"
               value={uuid}
@@ -353,8 +356,13 @@ useEffect(() => {
               className="uuid-input"
               disabled={loading}
             />
-            <label className="password-label">Password</label>
+          </div>
+          <div className="input-group">
+            <label htmlFor="password-input" className="password-label">
+              Password
+            </label>
             <input
+              id="password-input"
               type="password"
               placeholder="Enter Password"
               value={password}
@@ -365,10 +373,14 @@ useEffect(() => {
           </div>
           <button
             onClick={validateUuid}
-            disabled={!uuid || !currentUser || loading}
+            disabled={!uuid || !password || !currentUser || loading}
             className={`validate-button ${loading ? "loading" : ""}`}
           >
-            Validate Secrects
+            {loading ? (
+              <img src="/loading.gif" alt="Loading" className="loading-spinner" />
+            ) : (
+              "Validate Secrets"
+            )}
           </button>
         </div>
         <div className="upload-section">
@@ -404,8 +416,9 @@ useEffect(() => {
         </div>
         {message.text && (
           <p
-            className={`status-message ${message.isSuccess ? "success" : "error"
-              }`}
+            className={`status-message ${
+              message.isSuccess ? "success" : "error"
+            }`}
           >
             {message.text}
           </p>
