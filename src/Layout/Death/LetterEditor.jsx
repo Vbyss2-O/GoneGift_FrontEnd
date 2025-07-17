@@ -286,7 +286,7 @@ const LetterEditor = () => {
       <div style={{ maxWidth: "800px", margin: "2rem auto" }}>
         <div style={styles.uuidSection}>
           <div style={styles.uuidContainer}>
-            <label style={styles.label}>UUID</label>
+            <label style={styles.label}>ID</label>
             <input
               type="text"
               placeholder="Enter ID"

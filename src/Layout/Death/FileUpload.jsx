@@ -15,6 +15,8 @@ const FileUpload = () => {
   const [uuid, setUuid] = useState("");
   const [password, setPassword] = useState("");
   const [isUuidValid, setIsUuidValid] = useState(false);
+  const [accessToken , setAccessToken] = useState(null);
+  
 
   const hashWithSalt = async (x) => {
     const salt = x.substring(0, 16);
@@ -26,6 +28,25 @@ const FileUpload = () => {
       .map((b) => b.toString(16).padStart(2, "0"))
       .join("");
   };
+useEffect(() => {
+  const initAuth = async () => {
+    const { data, error } = await supabase.auth.getSession();
+    if (error) {
+      console.error("Error getting session:", error);
+      return;
+    }
+
+    const accessToken = data.session?.access_token;
+
+    if (accessToken) {
+      setAccessToken(accessToken);
+    } else {
+      console.warn("No access token found—user probably signed out.");
+    }
+  };
+
+  initAuth();
+}, []);
 
   const fetchCurrentUser = async () => {
     const {
@@ -323,7 +344,7 @@ const FileUpload = () => {
         <h2>Upload File</h2>
         <div className="uuid-section">
           <div className="uuid-container">
-            <label className="uuid-label">UUID</label>
+            <label className="uuid-label">ID</label>
             <input
               type="text"
               placeholder="Enter ID"
@@ -332,9 +353,9 @@ const FileUpload = () => {
               className="uuid-input"
               disabled={loading}
             />
-            <label className="password-label">PASSWORD</label>
+            <label className="password-label">Password</label>
             <input
-              type="text"
+              type="password"
               placeholder="Enter Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

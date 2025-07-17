@@ -462,7 +462,8 @@ const UploadPage = () => {
               type="text"
               value={uuid}
               onChange={(e) => setUuid(e.target.value)}
-              placeholder="Enter ID"
+              
+              placeholder="ID"
               className="input-userid"
               required
               style={{
@@ -480,7 +481,7 @@ const UploadPage = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter Password"
+              placeholder="Password"
               className="input-userid"
               required
               style={{
