@@ -152,7 +152,7 @@ const FileUpload = () => {
       if (response.status === 200) {
         setIsUuidValid(true);
         setMessage({
-          text: "UUID validated successfully. You can now upload a file.",
+          text: "validated successfully. You can now upload a file.",
           isSuccess: true,
         });
         const encryptedKey = await getEncryptedKey();
@@ -165,7 +165,7 @@ const FileUpload = () => {
       } else {
         setIsUuidValid(false);
         setMessage({
-          text: "Invalid UUID or password. Please check and try again.",
+          text: "Invalid ID or password. Please check and try again.",
           isSuccess: false,
         });
       }
@@ -311,7 +311,7 @@ const FileUpload = () => {
       );
       if (response.status === 200 || response.status === 201) {
         setMessage({
-          text: "Successfully encrypted: Please share your secret key with beneficiary only",
+          text: "Successfully Encrypted",
           isSuccess: true,
         });
         setFile(null);

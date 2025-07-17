@@ -300,8 +300,8 @@
 
 .upload-button {
   padding: var(--space-md) var(--space-xl);
-  /* Changed this line to use a green gradient */
-  background: linear-gradient(135deg, var(--accent), #047857); /* Green gradient */
+  /* Changed this line to use a plain green from your variables */
+  background: var(--accent); /* Using the --accent variable for plain green */
   color: var(--text-white);
   border: none;
   border-radius: var(--radius-sm);
@@ -331,7 +331,8 @@
 }
 
 .upload-button:hover:not(:disabled) {
-  background: linear-gradient(135deg, var(--accent), #047857); /* Consistent green on hover */
+  /* Using a slightly darker shade of green for hover, based on --accent if available, or a hardcoded value */
+  background: #047857; /* A slightly darker green than --accent */
   transform: translateY(-3px);
   box-shadow: var(--shadow-xl);
 }
