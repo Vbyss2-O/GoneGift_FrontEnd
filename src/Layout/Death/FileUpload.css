@@ -300,7 +300,8 @@
 
 .upload-button {
   padding: var(--space-md) var(--space-xl);
-  background: linear-gradient(135deg, var(--accent), var(--accent2)); /* Green to red for "Upload Encrypted File" */
+  /* Changed this line to use a green gradient */
+  background: linear-gradient(135deg, var(--accent), #047857); /* Green gradient */
   color: var(--text-white);
   border: none;
   border-radius: var(--radius-sm);
@@ -330,7 +331,7 @@
 }
 
 .upload-button:hover:not(:disabled) {
-  background: linear-gradient(135deg, var(--accent), #047857); /* Slightly darker green on hover */
+  background: linear-gradient(135deg, var(--accent), #047857); /* Consistent green on hover */
   transform: translateY(-3px);
   box-shadow: var(--shadow-xl);
 }
