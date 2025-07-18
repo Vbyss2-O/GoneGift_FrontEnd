@@ -349,7 +349,7 @@ const FileUpload = () => {
             </label>
             <input
               id="uuid-input"
-              type="text"
+              type="password"
               placeholder="Enter ID"
               value={uuid}
               onChange={(e) => setUuid(e.target.value)}

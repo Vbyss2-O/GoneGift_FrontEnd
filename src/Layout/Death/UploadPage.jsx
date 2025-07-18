@@ -459,7 +459,7 @@ const UploadPage = () => {
           </div>
           <div>
             <input
-              type="text"
+              type="password"
               value={uuid}
               onChange={(e) => setUuid(e.target.value)}
               

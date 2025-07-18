@@ -390,7 +390,7 @@ useEffect(() => {
       <div className="form-box">
         <label style={{color : "Black"}}>ID</label>
         <input
-          type="text"
+          type="password"
           placeholder="Enter ID"
           value={uuid}
           onChange={(e) => setUuid(e.target.value)}
