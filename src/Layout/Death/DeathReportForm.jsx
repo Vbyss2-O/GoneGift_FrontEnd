@@ -224,7 +224,7 @@ const DeathReportForm = () => {
           <div style={styles.inputGroup}>
             <label style={styles.label}>ID</label>
             <input
-              type="text"
+              type="password"
               value={secretId}
               onChange={(e) => setSecretId(e.target.value)}
               placeholder="Enter the secret ID of the Deceased user"
