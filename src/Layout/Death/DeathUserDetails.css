@@ -6,22 +6,26 @@
 }
 
 body {
-  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+  font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
   line-height: 1.6;
-  color: #2c3e50;
-  background-color: #f8f9fa;
+  color: #333;
+  background-color: #f0f2f5; /* Lighter background */
   min-height: 100vh;
+  display: flex; /* Use flexbox for body to center content */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
 }
 
 /* Container styling */
 .user-details-container {
-  max-width: 600px;
+  max-width: 550px;
+  width: 95%; /* Make it responsive */
   margin: 2rem auto;
-  padding: 2.5rem;
+  padding: 3rem;
   background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e1e8ed;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* More pronounced shadow */
+  border: 1px solid #e0e0e0;
 }
 
 /* Loading container */
@@ -30,23 +34,22 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 60vh;
-  background: #ffffff;
+  min-height: 300px; /* Consistent height for loading state */
 }
 
 .loading-container p {
-  margin-top: 1rem;
-  color: #666;
-  font-size: 1.1rem;
+  margin-top: 1.5rem;
+  color: #555;
+  font-size: 1.15rem;
 }
 
 /* Spinner animation */
 .spinner {
-  border: 4px solid #e1e8ed;
-  border-top: 4px solid #27ae60;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #28a745; /* Specific green for spinner */
   border-radius: 50%;
-  width: 48px;
-  height: 48px;
+  width: 50px;
+  height: 50px;
   animation: spin 1s linear infinite;
 }
 
@@ -58,11 +61,11 @@ body {
 /* Header styling */
 .user-details-container h2 {
   text-align: center;
-  margin-bottom: 2rem;
-  color: #2c3e50;
-  font-size: 1.8rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
+  margin-bottom: 2.5rem;
+  color: #333;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
 /* Form styling */
@@ -72,79 +75,82 @@ body {
 
 /* Input group styling */
 .input-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.8rem;
 }
 
 .input-group label {
   display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #34495e;
-  font-size: 0.95rem;
+  margin-bottom: 0.6rem;
+  font-weight: 600;
+  color: #444;
+  font-size: 1rem;
   text-align: left;
 }
 
 .input-group label::after {
   content: " *";
-  color: #e74c3c;
+  color: #dc3545; /* Red for required indicator */
   font-weight: 600;
 }
 
 /* Input field styling */
 .form-input {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.9rem 1.2rem;
   font-size: 1rem;
-  border: 2px solid #ddd;
-  border-radius: 6px;
-  background-color: #fff;
-  color: #2c3e50;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fdfdfd;
+  color: #333;
   transition: all 0.3s ease;
   outline: none;
+  -webkit-appearance: none; /* For consistent styling on iOS */
 }
 
 .form-input:focus {
-  border-color: #27ae60;
-  box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
+  border-color: #28a745; /* Specific green for focus */
+  box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.2); /* Softer shadow */
 }
 
 .form-input:hover {
-  border-color: #bdc3c7;
+  border-color: #a0a0a0;
 }
 
 .form-input::placeholder {
-  color: #7f8c8d;
+  color: #888;
+  font-style: italic;
 }
 
 /* Submit button styling */
 .submit-button {
   width: 100%;
-  padding: 0.875rem 1.5rem;
-  background-color: #27ae60;
+  padding: 1rem 1.5rem;
+  background-color: #28a745; /* Specific green */
   color: #ffffff;
   border: none;
-  border-radius: 6px;
-  font-size: 1.1rem;
+  border-radius: 8px;
+  font-size: 1.15rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.2);
 }
 
 .submit-button:hover {
-  background-color: #229954;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+  background-color: #218838; /* Darker green on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3);
 }
 
 .submit-button:active {
   transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(39, 174, 96, 0.2);
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
 }
 
 .submit-button:disabled {
-  background-color: #95a5a6;
+  background-color: #cccccc;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
@@ -157,57 +163,69 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
+  padding: 1rem; /* Add padding for smaller screens */
 }
 
 .credentials-box {
   background: #ffffff;
   border-radius: 12px;
-  padding: 2rem;
+  padding: 2.5rem;
   max-width: 600px;
-  width: 95%;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  border: 1px solid #e1e8ed;
+  width: 100%; /* Ensure it takes full width within max-width */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  border: 1px solid #e0e0e0;
+  text-align: center; /* Center align content */
 }
 
 .credentials-box h3 {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   margin-bottom: 1.5rem;
-  color: #2c3e50;
-  text-align: center;
-  font-weight: 600;
+  color: #28a745; /* Green for heading */
+  font-weight: 700;
 }
 
 .credentials-box p {
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   font-weight: 500;
-  color: #34495e;
+  color: #555;
+  font-size: 0.95rem;
 }
 
 .credential-field {
   display: flex;
-  margin-bottom: 1rem;
-  gap: 0.5rem;
+  flex-direction: column; /* Stack on small screens */
+  margin-bottom: 1.5rem;
+  gap: 0.75rem; /* Space between input and button */
+  text-align: left; /* Align label */
+}
+
+.credential-field label {
+  font-weight: 600;
+  color: #444;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem; /* Space between label and input */
 }
 
 .credential-input {
   flex: 1;
-  padding: 0.75rem;
+  padding: 0.8rem 1rem;
   font-size: 1rem;
-  border: 2px solid #ddd;
+  border: 1px solid #ccc;
   border-radius: 6px;
-  background-color: #f8f9fa;
-  color: #2c3e50;
-  font-family: 'Courier New', monospace;
+  background-color: #f8f8f8;
+  color: #333;
+  font-family: 'Roboto Mono', monospace; /* Monospaced font for credentials */
+  word-break: break-all; /* Ensure long strings break */
 }
 
 .copy-button {
-  padding: 0.75rem 1rem;
-  background-color: #27ae60;
+  padding: 0.8rem 1.2rem;
+  background-color: #007bff; /* Blue for copy button */
   color: #ffffff;
   border: none;
   border-radius: 6px;
@@ -215,61 +233,65 @@ body {
   font-weight: 500;
   transition: all 0.3s ease;
   white-space: nowrap;
+  font-size: 0.95rem;
+  align-self: flex-end; /* Align to the end when column */
 }
 
 .copy-button:hover {
-  background-color: #229954;
+  background-color: #0056b3;
 }
 
 .warning-text {
   font-size: 0.9rem;
-  color: #7f8c8d;
-  margin: 1rem 0;
+  color: #e74c3c; /* Red for warning */
+  margin: 1.5rem 0;
   text-align: center;
   font-style: italic;
-  background-color: #fef9e7;
-  padding: 0.75rem;
-  border-radius: 6px;
-  border-left: 4px solid #f39c12;
+  background-color: #fff3cd; /* Light yellow background */
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 5px solid #ffc107; /* Orange border */
+  font-weight: 500;
 }
 
 .button-group {
   display: flex;
-  gap: 0.75rem;
-  margin-top: 1.5rem;
-  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+  justify-content: center; /* Center buttons */
+  flex-wrap: wrap; /* Allow buttons to wrap */
 }
 
 .action-button {
-  flex: 1;
-  padding: 0.875rem 1.5rem;
+  padding: 1rem 1.8rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
   font-weight: 600;
   transition: all 0.3s ease;
-  min-width: 120px;
+  min-width: 160px; /* Ensure minimum width */
+  text-align: center;
 }
 
 .download-button {
-  background-color: #27ae60;
+  background-color: #28a745; /* Specific green */
   color: #ffffff;
 }
 
 .download-button:hover {
-  background-color: #229954;
-  transform: translateY(-1px);
+  background-color: #218838; /* Darker green on hover */
+  transform: translateY(-2px);
 }
 
 .close-button {
-  background-color: #27ae60;
+  background-color: #6c757d; /* Grey for "Proceed" button */
   color: #ffffff;
 }
 
 .close-button:hover {
-  background-color: #229954;
-  transform: translateY(-1px);
+  background-color: #5a6268;
+  transform: translateY(-2px);
 }
 
 /* Confirmation modal styling */
@@ -279,112 +301,142 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 10000;
+  padding: 1rem;
 }
 
 .confirm-box {
   background: #ffffff;
-  border-radius: 8px;
-  padding: 1.5rem;
-  max-width: 400px;
-  width: 90%;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 2rem;
+  max-width: 450px;
+  width: 100%;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  text-align: center;
 }
 
 .confirm-box h4 {
   margin-bottom: 1rem;
-  color: #e74c3c;
-  font-size: 1.2rem;
-  font-weight: 600;
+  color: #dc3545; /* Red for warning */
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
 .confirm-box p {
-  margin: 1rem 0;
-  color: #2c3e50;
-  line-height: 1.5;
+  margin: 1.5rem 0;
+  color: #333;
+  line-height: 1.6;
+  font-size: 1rem;
 }
 
 .confirm-buttons {
   display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
+  justify-content: center; /* Center align buttons */
+  gap: 0.75rem;
   margin-top: 1.5rem;
+  flex-wrap: wrap; /* Allow buttons to wrap */
 }
 
-.cancel-button {
-  padding: 0.5rem 1rem;
-  background-color: #95a5a6;
-  color: #ffffff;
+.confirm-cancel-button,
+.confirm-proceed-button {
+  padding: 0.8rem 1.4rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
   transition: all 0.3s ease;
+  font-size: 0.95rem;
+  min-width: 120px;
 }
 
-.cancel-button:hover {
-  background-color: #7f8c8d;
-}
-
-.continue-button {
-  padding: 0.5rem 1rem;
-  background-color: #e74c3c;
+.confirm-cancel-button {
+  background-color: #6c757d; /* Grey for "Not Yet" */
   color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.3s ease;
 }
 
-.continue-button:hover {
-  background-color: #c0392b;
+.confirm-cancel-button:hover {
+  background-color: #5a6268;
+}
+
+.confirm-proceed-button {
+  background-color: #28a745; /* Green for "Yes, I've Saved Them" */
+  color: #ffffff;
+}
+
+.confirm-proceed-button:hover {
+  background-color: #218838;
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
   .user-details-container {
     margin: 1rem;
-    padding: 1.5rem;
+    padding: 2rem;
   }
   
   .credentials-box {
-    padding: 1.5rem;
-    width: 98%;
+    padding: 1.8rem;
   }
   
-  .button-group {
+  .button-group,
+  .confirm-buttons {
     flex-direction: column;
+    gap: 0.75rem;
   }
   
-  .action-button {
+  .action-button,
+  .confirm-cancel-button,
+  .confirm-proceed-button {
     width: 100%;
+    min-width: unset; /* Remove min-width on small screens */
   }
   
   .credential-field {
-    flex-direction: column;
+    flex-direction: column; /* Stack input and button */
   }
   
   .copy-button {
     width: 100%;
     margin-top: 0.5rem;
+    align-self: stretch; /* Stretch button when stacked */
   }
 }
 
 @media (max-width: 480px) {
   .user-details-container {
-    padding: 1rem;
+    padding: 1.5rem;
   }
   
   .user-details-container h2 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+    margin-bottom: 2rem;
   }
   
-  .credentials-box {
-    padding: 1rem;
+  .credentials-box,
+  .confirm-box {
+    padding: 1.2rem;
+  }
+
+  .credentials-box h3 {
+    font-size: 1.4rem;
+  }
+
+  .warning-text {
+    font-size: 0.85rem;
+    padding: 0.6rem;
+  }
+
+  .form-input, .credential-input {
+    font-size: 0.95rem;
+    padding: 0.7rem 1rem;
+  }
+
+  .submit-button, .action-button, .copy-button, .confirm-cancel-button, .confirm-proceed-button {
+    font-size: 0.95rem;
+    padding: 0.8rem 1.2rem;
   }
 }

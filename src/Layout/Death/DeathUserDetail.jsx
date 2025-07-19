@@ -4,7 +4,7 @@ import { supabase } from "./supabaseClient";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import CryptoJS from "crypto-js";
-import "./DeathUserDetails.css"
+import "./DeathUserDetails.css";
 
 const UserDetailsForm = () => {
   const navigate = useNavigate();
@@ -87,7 +87,7 @@ const UserDetailsForm = () => {
       // 4. Encrypt the derived key itself as string
       const encrypted = CryptoJS.AES.encrypt(
         derivedKey.toString(CryptoJS.enc.Hex), // Data to encrypt
-        derivedKey,                            // Use derived key as encryption key
+        derivedKey, // Use derived key as encryption key
         {
           iv: iv,
           mode: CryptoJS.mode.CBC,
@@ -97,12 +97,11 @@ const UserDetailsForm = () => {
 
       // 5. Return both encrypted value and IV as Base64 (needed for decryption)
       return {
-        encryptedKey: encrypted.toString(),       // Base64 string
-        iv: iv.toString(CryptoJS.enc.Base64),     // Also Base64 string
+        encryptedKey: encrypted.toString(), // Base64 string
+        iv: iv.toString(CryptoJS.enc.Base64), // Also Base64 string
       };
-
     } catch (error) {
-      console.error('Key generation/encryption failed:', error);
+      console.error("Key generation/encryption failed:", error);
       throw error;
     }
   };
@@ -139,14 +138,15 @@ const UserDetailsForm = () => {
       };
 
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/deathusers`, userDetails, {
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${accessToken}`,
         },
       });
 
       showCredentialsBox(generatedUuid, iv);
-      navigate("/death-dashboard");
+      // Removed navigate here, will navigate after user acknowledges credentials.
+      // navigate("/death-dashboard");
     } catch (err) {
       console.error("Error submitting form:", err.response?.data || err.message);
       alert("Submission failed. Please check console logs.");
@@ -164,21 +164,22 @@ const UserDetailsForm = () => {
     const box = document.createElement("div");
     box.className = "credentials-box";
     box.innerHTML = `
-      <h3>Your Important Credentials</h3>
-      <p><strong>Your ID:</strong></p>
+      <h3>Important Credentials</h3>
+      <p>Please save these credentials securely. They will not be shown again.</p>
       <div class="credential-field">
+        <label for="uuidInput">Your ID:</label>
         <input type="text" value="${uuid}" readonly class="credential-input" id="uuidInput">
         <button id="copyUuid" class="copy-button">Copy</button>
       </div>
-      <p><strong>Your Password:</strong></p>
       <div class="credential-field">
+        <label for="passwordInput">Your Password:</label>
         <input type="text" value="${password}" readonly class="credential-input" id="passwordInput">
         <button id="copyPassword" class="copy-button">Copy</button>
       </div>
-      <p class="warning-text">Do not share this with anyone except your beneficiary.</p>
+      <p class="warning-text"><strong>Warning:</strong> Do not share this with anyone except your designated beneficiary.</p>
       <div class="button-group">
         <button id="downloadFile" class="action-button download-button">Download .txt</button>
-        <button id="closeBox" class="action-button close-button">Close</button>
+        <button id="closeBox" class="action-button close-button">Proceed to Dashboard</button>
       </div>
     `;
 
@@ -188,14 +189,16 @@ const UserDetailsForm = () => {
     // Copy handlers
     box.querySelector("#copyUuid").onclick = () => {
       navigator.clipboard.writeText(uuid);
+      alert("ID copied to clipboard!");
     };
     box.querySelector("#copyPassword").onclick = () => {
       navigator.clipboard.writeText(password);
+      alert("Password copied to clipboard!");
     };
 
     // Download handler
     box.querySelector("#downloadFile").onclick = () => {
-      const textContent = `ID: ${uuid}\nPassword: ${password}`;
+      const textContent = `GoneGift Credentials\n\nYour ID: ${uuid}\nYour Password: ${password}\n\nKeep these safe and share only with your trusted beneficiary.`;
       const blob = new Blob([textContent], { type: "text/plain" });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -207,7 +210,7 @@ const UserDetailsForm = () => {
       URL.revokeObjectURL(url);
     };
 
-    // Close handler
+    // Close handler (Proceed to Dashboard)
     box.querySelector("#closeBox").onclick = () => {
       // Create confirmation overlay
       const confirmOverlay = document.createElement("div");
@@ -217,26 +220,27 @@ const UserDetailsForm = () => {
       const confirmBox = document.createElement("div");
       confirmBox.className = "confirm-box";
       confirmBox.innerHTML = `
-        <h4>Warning</h4>
-        <p>This credential will not be visible again. One-time copy only. Make sure you have saved it before proceeding.</p>
+        <h4>Are You Sure?</h4>
+        <p>This is your only chance to save your ID and Password. Have you copied/downloaded them securely?</p>
         <div class="confirm-buttons">
-          <button id="cancelConfirm" class="cancel-button">Close</button>
-          <button id="continueConfirm" class="continue-button">Continue</button>
+          <button id="cancelConfirm" class="confirm-cancel-button">Not Yet (Go Back)</button>
+          <button id="continueConfirm" class="confirm-proceed-button">Yes, I've Saved Them</button>
         </div>
       `;
 
       confirmOverlay.appendChild(confirmBox);
       document.body.appendChild(confirmOverlay);
 
-      // Handle Close (just hide confirmation)
+      // Handle Cancel (just hide confirmation)
       confirmBox.querySelector("#cancelConfirm").onclick = () => {
         document.body.removeChild(confirmOverlay);
       };
 
-      // Handle Continue (remove everything)
+      // Handle Continue (remove everything and navigate)
       confirmBox.querySelector("#continueConfirm").onclick = () => {
         document.body.removeChild(confirmOverlay);
         document.body.removeChild(overlay);
+        navigate("/death-dashboard"); // Navigate after confirmation
       };
     };
   }
@@ -246,48 +250,51 @@ const UserDetailsForm = () => {
       {loadingScreen ? (
         <div className="loading-container">
           <div className="spinner"></div>
-          <p>Loading...</p>
+          <p>Loading user details...</p>
         </div>
       ) : (
         <>
-          <h2>Enter Your Details</h2>
+          <h2>Tell Us About Yourself</h2>
           <form className="user-details-form" onSubmit={handleSubmit}>
             <div className="input-group">
-              <label>First Name</label>
+              <label htmlFor="firstName">First Name</label>
               <input
+                id="firstName"
                 type="text"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value.toLowerCase().replace(/[^a-z]/g, ""))}
                 required
                 className="form-input"
-                placeholder="Enter your first name"
+                placeholder="e.g., john"
               />
             </div>
             <div className="input-group">
-              <label>Middle Name</label>
+              <label htmlFor="middleName">Middle Name (Optional)</label>
               <input
+                id="middleName"
                 type="text"
                 value={middleName}
                 onChange={(e) => setMiddleName(e.target.value.toLowerCase().replace(/[^a-z]/g, ""))}
-                required
                 className="form-input"
-                placeholder="Enter your middle name"
+                placeholder="e.g., doe"
               />
             </div>
             <div className="input-group">
-              <label>Last Name</label>
+              <label htmlFor="lastName">Last Name</label>
               <input
+                id="lastName"
                 type="text"
                 value={lastname}
                 onChange={(e) => setLastname(e.target.value.toLowerCase().replace(/[^a-z]/g, ""))}
                 required
                 className="form-input"
-                placeholder="Enter your last name"
+                placeholder="e.g., smith"
               />
             </div>
             <div className="input-group">
-              <label>Date of Birth</label>
+              <label htmlFor="dateOfBirth">Date of Birth</label>
               <input
+                id="dateOfBirth"
                 type="date"
                 value={dateOfBirth}
                 onChange={(e) => setDateOfBirth(e.target.value)}
@@ -296,7 +303,7 @@ const UserDetailsForm = () => {
               />
             </div>
             <button type="submit" disabled={loading} className="submit-button">
-              {loading ? "Submitting..." : "Submit"}
+              {loading ? "Submitting..." : "Submit Details"}
             </button>
           </form>
         </>
