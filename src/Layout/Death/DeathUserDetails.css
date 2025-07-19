@@ -1,5 +1,19 @@
-/* --- CSS Variables for Theming --- */
-:root {
+/*
+  IMPORTANT: To make these styles apply ONLY to your details page,
+  wrap your component's entire JSX output in a div with the class "user-details-page-wrapper".
+
+  For example, in your UserDetailsForm.jsx:
+
+  return (
+    <div className="user-details-page-wrapper">
+      ... your form and modals ...
+    </div>
+  );
+*/
+
+/* --- Scoped Variables and Base Styles --- */
+.user-details-page-wrapper {
+  /* CSS Variables are now scoped to this wrapper */
   --color-primary: #28a745; /* Proper green */
   --color-primary-dark: #218838;
   --color-secondary: #6c757d;
@@ -17,24 +31,24 @@
   --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --border-radius: 8px;
   --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  /* Base styles from `body` are now applied here */
+  font-family: var(--font-family-sans-serif);
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  min-height: 100vh; /* Ensures background covers the page */
 }
 
-/* --- Base & Reset Styles --- */
-* {
+/* Scoped universal selector */
+.user-details-page-wrapper * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body {
-  font-family: var(--font-family-sans-serif);
-  line-height: 1.6;
-  color: var(--color-text);
-  background-color: var(--color-bg);
-}
-
 /* --- Main Container --- */
-.user-details-container {
+.user-details-page-wrapper .user-details-container {
   max-width: 600px;
   margin: 3rem auto;
   padding: 2.5rem;
@@ -44,72 +58,78 @@ body {
   border: 1px solid var(--color-border);
 }
 
-.user-details-container h2 {
+.user-details-page-wrapper .user-details-container h2 {
   text-align: center;
   margin-bottom: 2rem;
   font-size: 1.75rem;
   font-weight: 600;
+  color: var(--color-text);
 }
 
 /* --- Loading Spinner --- */
-.loading-container {
+.user-details-page-wrapper .loading-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
 }
-.spinner {
+.user-details-page-wrapper .spinner {
   width: 50px;
   height: 50px;
   border: 5px solid #f3f3f3;
   border-top: 5px solid var(--color-primary);
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: spin-scoped 1s linear infinite;
 }
-.loading-container p {
+.user-details-page-wrapper .loading-container p {
   margin-top: 1rem;
   font-size: 1.1rem;
   color: var(--color-text-muted);
 }
-@keyframes spin {
+
+/* Keyframes do not need to be scoped */
+@keyframes spin-scoped {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
 /* --- Form Styles --- */
-.form__group {
+.user-details-page-wrapper .form__group {
   margin-bottom: 1.5rem;
 }
-.form__label {
+.user-details-page-wrapper .form__label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 600;
   font-size: 0.9rem;
+  color: var(--color-text);
 }
-.form__label::after {
+.user-details-page-wrapper .form__label::after {
   content: " *";
   color: var(--color-danger);
 }
-.form__input {
+.user-details-page-wrapper .form__input {
   width: 100%;
   padding: 0.8rem 1rem;
   font-size: 1rem;
   border: 1px solid var(--color-border);
   border-radius: 6px;
   transition: border-color 0.2s, box-shadow 0.2s;
+  background-color: var(--color-white);
+  color: var(--color-text);
 }
-.form__input:focus {
+.user-details-page-wrapper .form__input:focus {
   outline: none;
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2);
 }
-.form__input::placeholder {
+.user-details-page-wrapper .form__input::placeholder {
   color: #a9a9a9;
 }
 
 /* --- General Button Styles --- */
-.btn {
+.user-details-page-wrapper .btn {
   padding: 0.8rem 1.5rem;
   font-size: 1rem;
   font-weight: 600;
@@ -120,15 +140,15 @@ body {
   text-align: center;
   white-space: nowrap;
 }
-.btn:hover {
+.user-details-page-wrapper .btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-.btn:active {
+.user-details-page-wrapper .btn:active {
   transform: translateY(0);
   box-shadow: none;
 }
-.btn:disabled {
+.user-details-page-wrapper .btn:disabled {
   background-color: var(--color-secondary);
   border-color: var(--color-secondary);
   cursor: not-allowed;
@@ -138,37 +158,37 @@ body {
 }
 
 /* Button Modifiers */
-.btn--primary {
+.user-details-page-wrapper .btn--primary {
   background-color: var(--color-primary);
   color: var(--color-white);
   border-color: var(--color-primary);
 }
-.btn--primary:hover {
+.user-details-page-wrapper .btn--primary:hover {
   background-color: var(--color-primary-dark);
   border-color: var(--color-primary-dark);
 }
-.btn--secondary {
+.user-details-page-wrapper .btn--secondary {
   background-color: var(--color-secondary);
   color: var(--color-white);
 }
-.btn--secondary:hover {
+.user-details-page-wrapper .btn--secondary:hover {
   background-color: var(--color-secondary-dark);
 }
-.btn--danger {
+.user-details-page-wrapper .btn--danger {
   background-color: var(--color-danger);
   color: var(--color-white);
 }
-.btn--danger:hover {
+.user-details-page-wrapper .btn--danger:hover {
   background-color: var(--color-danger-dark);
 }
-.btn--block {
+.user-details-page-wrapper .btn--block {
   display: block;
   width: 100%;
   margin-top: 1rem;
 }
 
 /* --- Modal Styles --- */
-.modal-overlay {
+.user-details-page-wrapper .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -181,79 +201,83 @@ body {
   z-index: 1000;
   padding: 1rem;
 }
-.modal-content {
+.user-details-page-wrapper .modal-content {
   background: var(--color-white);
   border-radius: var(--border-radius);
   padding: 2rem;
   max-width: 600px;
   width: 100%;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  animation: fadeIn 0.3s ease-out;
+  animation: fadeIn-scoped 0.3s ease-out;
 }
-@keyframes fadeIn {
+@keyframes fadeIn-scoped {
   from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
 }
-.modal-header {
+.user-details-page-wrapper .modal-header {
   text-align: center;
   margin-bottom: 1.5rem;
 }
-.modal-header h3 {
+.user-details-page-wrapper .modal-header h3 {
   font-size: 1.6rem;
   margin-bottom: 0.5rem;
+  color: var(--color-text);
 }
-.modal-header h4 { /* For confirmation modal */
+.user-details-page-wrapper .modal-header h4 { /* For confirmation modal */
   font-size: 1.4rem;
   color: var(--color-danger);
 }
-.modal-subheader {
+.user-details-page-wrapper .modal-subheader {
   color: var(--color-text-muted);
 }
-.modal-body {
+.user-details-page-wrapper .modal-body {
   margin-bottom: 2rem;
 }
-.modal-footer {
+.user-details-page-wrapper .modal-footer {
   display: flex;
   justify-content: flex-end;
   gap: 0.75rem;
   flex-wrap: wrap;
 }
-.modal-content--confirm {
+.user-details-page-wrapper .modal-content--confirm {
   max-width: 450px;
 }
-.modal-content--confirm .modal-body p {
+.user-details-page-wrapper .modal-content--confirm .modal-body p {
   text-align: center;
   font-size: 1.1rem;
+  color: var(--color-text);
 }
 
 /* Credential-specific styles */
-.credential {
+.user-details-page-wrapper .credential {
   margin-bottom: 1rem;
 }
-.credential label {
+.user-details-page-wrapper .credential label {
   font-weight: 600;
   font-size: 0.9rem;
   display: block;
   margin-bottom: 0.25rem;
+  color: var(--color-text);
 }
-.credential__input-group {
+.user-details-page-wrapper .credential__input-group {
   display: flex;
   gap: 0.5rem;
 }
-.credential__input {
+.user-details-page-wrapper .credential__input {
   flex-grow: 1;
   padding: 0.75rem;
   font-family: 'Courier New', monospace;
   background-color: var(--color-bg);
   border: 1px solid var(--color-border);
   border-radius: 6px;
+  color: var(--color-text);
 }
-.btn--copy {
+.user-details-page-wrapper .btn--copy {
   padding: 0.75rem 1rem;
   background-color: var(--color-primary);
   color: var(--color-white);
 }
-.warning-box {
+.user-details-page-wrapper .warning-box {
   margin-top: 1.5rem;
   padding: 1rem;
   background: var(--color-warning-bg);
@@ -266,26 +290,26 @@ body {
 
 /* --- Responsive Design --- */
 @media (max-width: 768px) {
-  .user-details-container {
+  .user-details-page-wrapper .user-details-container {
     margin: 1.5rem;
     padding: 2rem;
   }
 }
 @media (max-width: 480px) {
-  .user-details-container {
+  .user-details-page-wrapper .user-details-container {
     margin: 1rem;
     padding: 1.5rem;
   }
-  .modal-footer {
+  .user-details-page-wrapper .modal-footer {
     flex-direction: column;
   }
-  .modal-footer .btn {
+  .user-details-page-wrapper .modal-footer .btn {
     width: 100%;
   }
-  .credential__input-group {
+  .user-details-page-wrapper .credential__input-group {
     flex-direction: column;
   }
-  .credential__input-group .btn {
+  .user-details-page-wrapper .credential__input-group .btn {
     width: 100%;
   }
 }

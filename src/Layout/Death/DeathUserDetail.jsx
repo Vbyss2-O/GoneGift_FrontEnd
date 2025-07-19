@@ -253,7 +253,7 @@ const UserDetailsForm = () => {
 
   return (
     <>
-      <div className="user-details-container">
+      <div className="user-details-page-wrapper">
         <h2>Enter Your Details</h2>
         <form className="form" onSubmit={handleSubmit}>
           <div className="form__group">
