@@ -143,11 +143,6 @@ const GoogleLoginPage = () => {
             <h2>
               <GoneGiftLogo />
             </h2>
-            <img
-              src="/gonegift.png"
-              alt="GoneGift Icon"
-              style={{height: "28px", width: "28px", objectFit: "contain" }}
-            />
           </div>
           <nav className="nav">
             <Link to="/feathers">Features</Link>
