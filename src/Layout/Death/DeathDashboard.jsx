@@ -20,6 +20,8 @@ import {
 import { FaRobot, FaVoicemail } from "react-icons/fa";
 import MonitoringToggle from "../components/ToggleSwitch";
 
+import { getApiUrl } from "../../config/env";
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
@@ -102,18 +104,14 @@ const Dashboard = () => {
     if (userData) {
       Promise.all([
         fetch(
-          `${import.meta.env.VITE_API_URL}/api/deathusers/filesize/${userData.userIdX
+          `${getApiUrl("")}/api/deathusers/filesize/${userData.userIdX
           }`,
-          {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }
+          {}
         ).then((res) => res.text()),
         fetch(
-          `${import.meta.env.VITE_API_URL}/api/deathusers/sharedfilesize/${userData.userIdX
+          `${getApiUrl("")}/api/deathusers/sharedfilesize/${userData.userIdX
           }`,
-          {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }
+          {}
         ).then((res) => res.text()),
       ])
         .then(([fileSizeText, sharedSizeText]) => {
@@ -129,11 +127,9 @@ const Dashboard = () => {
   useEffect(() => {
     if (userData) {
       fetch(
-        `${import.meta.env.VITE_API_URL}/api/deathusers/beneficiarysize/${userData.userIdX
+        `${getApiUrl("")}/api/deathusers/beneficiarysize/${userData.userIdX
         }`,
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        }
+        {}
       )
         .then((response) => response.text())
         .then((datax) => {

@@ -2,7 +2,7 @@
 
 /* Main Container */
 .shared-file-upload-container {
-    max-width: 700px;
+    max-width: var(--gg-form-width);
     min-height: 600px;
     margin: 3rem auto;
     padding: 40px;
@@ -26,15 +26,10 @@
 .title {
     font-size: 2.25rem;
     font-weight: 700;
-    color: #2c3e50;
+    color: #111111;
     margin-bottom: 2rem;
     letter-spacing: -0.5px;
-    background: linear-gradient(135deg, var(--primary, #a855f7), var(--secondary, #ec4899), var(--accent, #10b981));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
     text-align: center;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.08);
 }
 
 .section-title {
@@ -130,16 +125,17 @@
 .secondary-button {
     display: inline-block;
     margin: 1rem 0.5rem;
-    padding: 1rem 2.5rem;
-    font-size: 1.125rem;
+    min-height: var(--gg-btn-height);
+    padding: 0 var(--gg-btn-padding-x);
+    font-size: var(--gg-btn-font-size);
     font-weight: 600;
     border: none;
-    border-radius: var(--radius-lg, 1rem);
+    border-radius: var(--gg-btn-radius);
     cursor: pointer;
     transition: var(--transition spring, background 0.3s, box-shadow 0.3s);
     box-shadow: var(--shadow-md, 0 2px 8px rgba(0,0,0,0.08));
     color: var(--text-light, #fff);
-    background: linear-gradient(135deg, #10b981, #22d3ee);
+    background: var(--gg-success);
     position: relative;
     overflow: hidden;
 }
@@ -162,9 +158,9 @@
 .primary-button:hover:not(:disabled),
 .upload-button:hover:not(:disabled),
 .secondary-button:hover:not(:disabled) {
-    background: linear-gradient(135deg, #34d399, #06b6d4);
+    background: #186740;
     transform: translateY(-3px);
-    box-shadow: var(--shadow-xl, 0 4px 16px rgba(16,185,129,0.15));
+    box-shadow: var(--shadow-xl, 0 4px 16px rgba(31,122,79,0.15));
 }
 
 .action-button:hover:not(:disabled)::before,

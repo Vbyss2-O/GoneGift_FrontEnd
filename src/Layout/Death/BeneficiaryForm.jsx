@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { getApiUrl } from "../../config/env";
+
 import { supabase } from "./supabaseClient"; // Supabase client
 import axios from "axios"; // For making HTTP requests
 import "./BeneficiaryForm.css"; // Import your CSS styles
@@ -70,7 +72,7 @@ const BeneficiaryForm = () => {
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/beneficiaries`,
+        `${getApiUrl("")}/api/beneficiaries`,
         {
           name,
           email,
@@ -79,7 +81,6 @@ const BeneficiaryForm = () => {
         },
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
@@ -107,58 +108,66 @@ const BeneficiaryForm = () => {
     <>
       <BackButton />
       <div className="beneficiary-form-container">
-        <h2 className="beneficiary-form-title">Add a Beneficiary</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="beneficiary-form-input-group">
-            <label htmlFor="name" className="beneficiary-form-label">
-              Beneficiary Name
-            </label>
-            <input
-              id="name"
-              type="text"
-              placeholder="Enter beneficiary name..."
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="beneficiary-form-input"
-              required // Added required attribute for basic validation
-            />
-          </div>
-          <div className="beneficiary-form-input-group">
-            <label htmlFor="email" className="beneficiary-form-label">
-              Beneficiary Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              placeholder="Enter beneficiary email..."
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="beneficiary-form-input"
-              required // Added required attribute
-            />
-          </div>
-          <br />
-          <div style={{ textAlign: "center" }}>
-            {" "}
-            {/* Keeping inline style for text-align for simple alignment */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="beneficiary-form-button"
-            >
-              {loading ? "Adding..." : "Add Beneficiary"}
-            </button>
-          </div>
-        </form>
-        {message && (
-          <p
-            className={`beneficiary-form-message ${
-              message.includes("successfully") ? "success" : "error"
-            }`}
-          >
-            {message}
+        <div className="beneficiary-form-intro">
+          <h2 className="beneficiary-form-title">Add a Beneficiary</h2>
+          <h3>Keep Delivery Safe</h3>
+          <p>
+            Add a trusted person who can receive your content when required.
+            Please verify the name and email before saving.
           </p>
-        )}
+        </div>
+
+        <div className="beneficiary-form-panel">
+          <form onSubmit={handleSubmit} className="beneficiary-form-grid">
+            <div className="beneficiary-form-input-group">
+              <label htmlFor="name" className="beneficiary-form-label">
+                Beneficiary Name
+              </label>
+              <input
+                id="name"
+                type="text"
+                placeholder="Enter beneficiary name..."
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="beneficiary-form-input"
+                required
+              />
+            </div>
+            <div className="beneficiary-form-input-group">
+              <label htmlFor="email" className="beneficiary-form-label">
+                Beneficiary Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                placeholder="Enter beneficiary email..."
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="beneficiary-form-input"
+                required
+              />
+            </div>
+            <div className="beneficiary-form-input-group full-width">
+              <button
+                type="submit"
+                disabled={loading}
+                className="beneficiary-form-button"
+              >
+                {loading ? "Adding..." : "Add Beneficiary"}
+              </button>
+            </div>
+          </form>
+
+          {message && (
+            <p
+              className={`beneficiary-form-message ${
+                message.includes("successfully") ? "success" : "error"
+              }`}
+            >
+              {message}
+            </p>
+          )}
+        </div>
       </div>
     </>
   );

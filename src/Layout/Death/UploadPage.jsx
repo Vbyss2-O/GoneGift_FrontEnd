@@ -4,6 +4,8 @@ import axios from "axios";
 import CryptoJS from "crypto-js";
 import { FiMic, FiSquare, FiX, FiPlay, FiPause, FiUpload } from "react-icons/fi";
 import "./AudioRecorder.css";
+import { getApiUrl } from "../../config/env";
+
 import BackButton from "../components/BackButton"; // Import the BackButton component
 
 const UploadPage = () => {
@@ -22,7 +24,6 @@ const UploadPage = () => {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [encryptedAesKey, setEncryptedAesKey] = useState(null);
-  const [accessToken , setAccessToken] = useState(null);
   
 
   const mediaRecorderRef = useRef(null);
@@ -46,26 +47,6 @@ const UploadPage = () => {
       .join("");
   };
 
-   useEffect(() => {
-    const initAuth = async () => {
-      const { data, error } = await supabase.auth.getSession();
-      if (error) {
-        console.error("Error getting session:", error);
-        return;
-      }
-  
-      const accessToken = data.session?.access_token;
-  
-      if (accessToken) {
-        setAccessToken(accessToken);
-      } else {
-        console.warn("No access token found—user probably signed out.");
-      }
-    };
-  
-    initAuth();
-  }, []);
-
   // Fetch current user
   const fetchCurrentUser = async () => {
     try {
@@ -88,12 +69,7 @@ const UploadPage = () => {
   const getEncryptedKey = async (userId) => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/deathusers/getKey/${userId}`,
-        {
-                headers: {
-                  Authorization: `Bearer ${accessToken}`,
-                 },
-              }
+        `${getApiUrl("")}/api/deathusers/getKey/${userId}`
       );
       if (response.status === 200) {
         return response.data; // { ciphertext: "...", iv: "..." }
@@ -153,12 +129,7 @@ const UploadPage = () => {
       const input = uuid.trim() + "Vedant_Kasar" + password.trim();
       const hashedToken = await hashWithSalt(input);
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/deathusers/findHashToken/${hashedToken}`,
-        {
-                headers: {
-                  Authorization: `Bearer ${accessToken}`,
-                 },
-              }
+        `${getApiUrl("")}/api/deathusers/findHashToken/${hashedToken}`
       );
       if (response.status === 200) {
         const encryptedKeyData = await getEncryptedKey(currentUser.id);
@@ -199,17 +170,71 @@ const UploadPage = () => {
     }
   };
 
+  const getMicrophoneErrorMessage = (error) => {
+    const errorName = error?.name || "UnknownError";
+
+    if (errorName === "NotAllowedError" || errorName === "SecurityError") {
+      return "Microphone permission was denied. Allow microphone access in browser site settings and use http://localhost:5173 or HTTPS.";
+    }
+
+    if (errorName === "NotFoundError" || errorName === "DevicesNotFoundError") {
+      return "No microphone device was found. Connect a microphone and try again.";
+    }
+
+    if (errorName === "NotReadableError" || errorName === "TrackStartError") {
+      return "Microphone is busy or unavailable. Close other apps using the mic and try again.";
+    }
+
+    if (errorName === "OverconstrainedError" || errorName === "ConstraintNotSatisfiedError") {
+      return "Requested microphone settings are not supported on this device.";
+    }
+
+    return `Could not access microphone: ${error?.message || "Unknown error"}`;
+  };
+
   // Start recording
   const startRecording = async () => {
     if (!isUuidValid) {
       setMessage("Please validate ID and password first.");
       return;
     }
+
+    if (!window.isSecureContext) {
+      setMessage(
+        "Microphone access requires a secure context. Open this app on http://localhost:5173 or over HTTPS."
+      );
+      return;
+    }
+
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      setMessage(
+        "Your browser does not support microphone recording in this context."
+      );
+      return;
+    }
+
     try {
+      if (navigator.permissions?.query) {
+        try {
+          const micPermission = await navigator.permissions.query({
+            name: "microphone",
+          });
+
+          if (micPermission.state === "denied") {
+            setMessage(
+              "Microphone permission is blocked. Enable it from browser site settings and reload the page."
+            );
+            return;
+          }
+        } catch {
+          // Ignore unsupported permissions query implementations and continue.
+        }
+      }
+
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
-      const audioContext = new (window.AudioContext ||
-        window.AudioContext)();
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      const audioContext = new AudioContextClass();
       audioContextRef.current = audioContext;
       const source = audioContext.createMediaStreamSource(stream);
       const analyser = audioContext.createAnalyser();
@@ -247,7 +272,8 @@ const UploadPage = () => {
       );
       updateAudioLevel();
     } catch (error) {
-      setMessage(" Could not access microphone: " + error.message);
+      console.error("Microphone access error:", error);
+      setMessage(getMicrophoneErrorMessage(error));
     }
   };
 
@@ -389,25 +415,20 @@ const UploadPage = () => {
       };
 
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/filemetadata`,
+        `${getApiUrl("")}/api/filemetadata`,
         fileMetadata,
         {
           headers: {
             "Content-Type": "application/json",
-            
-                
-                  Authorization: `Bearer ${accessToken}`,
-                 
-              
           },
         }
       );
       if (response.status === 200 || response.status === 201) {
-        setMessage("Letter saved successfully!");
+        setMessage("File saved successfully!");
         setUuid("");
         setPassword("");
       } else {
-        setMessage("Failed to save letter. Please try again.");
+        setMessage("Failed to save file. Please try again.");
       }
 
       cancelRecording();
@@ -457,26 +478,16 @@ const UploadPage = () => {
             <h2>Audio Recorder</h2>
             <p>Record high-quality audio messages</p>
           </div>
-          <div>
+          <div className="validation-section">
             <input
               type="password"
               value={uuid}
               onChange={(e) => setUuid(e.target.value)}
-              
               placeholder="ID"
               className="input-userid"
               required
-              style={{
-                marginBottom: "10px",
-                padding: "0.8rem",
-                borderRadius: "0.5rem",
-                border: "1px solid #ddd",
-                width: "100%",
-              }}
               disabled={isUuidValid || loading}
             />
-          </div>
-          <div>
             <input
               type="password"
               value={password}
@@ -484,41 +495,18 @@ const UploadPage = () => {
               placeholder="Password"
               className="input-userid"
               required
-              style={{
-                marginBottom: "10px",
-                padding: "0.8rem",
-                borderRadius: "0.5rem",
-                border: "1px solid #ddd",
-                width: "100%",
-              }}
               disabled={isUuidValid || loading}
             />
-          </div>
-          <div>
             <button
               className="btn"
               onClick={validateUuid}
-              disabled={loading || isUuidValid}
-              style={{
-                background: isUuidValid ? "green" : "green",
-                color: "white",
-                padding: "0.8rem 1rem",
-                borderRadius: "1rem",
-                border: "none",
-                cursor: loading || isUuidValid ? "not-allowed" : "pointer",
-              }}
+              disabled={loading || isUuidValid || !uuid || !password}
             >
               {loading ? "Validating..." : "Validate Secrets"}
             </button>
           </div>
           {message && (
-            <div
-              style={{
-                margin: "1rem 0",
-                color: isUuidValid ? "#059669" : "#dc2626",
-                fontSize: "0.9rem",
-              }}
-            >
+            <div className={`validation-message ${isUuidValid ? "success" : "error"}`}>
               {message}
             </div>
           )}
@@ -546,7 +534,7 @@ const UploadPage = () => {
           )}
 
           <div className="controls">
-            {!recording && !audioBlob && (
+            {!recording && !audioBlob && isUuidValid && (
               <button
                 className="btn start"
                 onClick={startRecording}

@@ -1,0 +1,98 @@
+.death-report-form-container {
+  max-width: var(--gg-form-width);
+  margin: 2.5rem auto;
+  padding: 2rem;
+  background: var(--gg-bg-soft);
+  border: 1px solid var(--gg-border);
+  border-radius: var(--gg-radius);
+  box-shadow: var(--gg-shadow);
+}
+
+.death-report-form-title {
+  margin: 0 0 1.25rem;
+  text-align: center;
+  color: #111111;
+  font-weight: 700;
+}
+
+.death-report-field {
+  margin-bottom: 1rem;
+}
+
+.death-report-label {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: var(--gg-primary);
+  font-weight: 600;
+}
+
+.death-report-input,
+.death-report-textarea {
+  width: 100%;
+  padding: 0.8rem 0.95rem;
+  border: 1px solid var(--gg-border);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--gg-text);
+  outline: none;
+}
+
+.death-report-input:focus,
+.death-report-textarea:focus {
+  border-color: var(--gg-primary);
+  box-shadow: 0 0 0 3px rgba(31, 78, 140, 0.14);
+}
+
+.death-report-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.death-report-button {
+  margin-top: 1rem;
+  width: 100%;
+  border: none;
+  border-radius: var(--gg-btn-radius);
+  min-height: var(--gg-btn-height);
+  padding: 0 var(--gg-btn-padding-x);
+  font-weight: 600;
+  font-size: var(--gg-btn-font-size);
+  color: #fff;
+  background: var(--gg-success);
+  cursor: pointer;
+}
+
+.death-report-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.death-report-button-validate {
+  background: var(--gg-success);
+}
+
+.death-report-success,
+.death-report-error {
+  margin-top: 1rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
+}
+
+.death-report-success {
+  color: var(--gg-success);
+  background: #ecf9f2;
+  border: 1px solid #b9e7cf;
+}
+
+.death-report-error {
+  color: var(--gg-danger);
+  background: #fdeeee;
+  border: 1px solid #f3bdbd;
+}
+
+@media (max-width: 768px) {
+  .death-report-form-container {
+    margin: 1.25rem;
+    padding: 1.25rem;
+  }
+}

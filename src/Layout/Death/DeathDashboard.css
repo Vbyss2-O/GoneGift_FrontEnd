@@ -410,24 +410,39 @@ body {
 .dashboard-card::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--primary), var(--accent));
-  transform: scaleX(0);
+  inset: 10px;
+  border-radius: calc(var(--radius-xl) - 6px);
+  border: 1px solid rgba(17, 24, 39, 0.06);
+  opacity: 0;
+  transform: scale(0.98);
   transition: var(--transition);
-  transform-origin: left;
+  pointer-events: none;
 }
 
-.dashboard-card:hover::before {
-  transform: scaleX(1);
+.dashboard-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(17, 24, 39, 0.06) 0%, transparent 62%);
+  opacity: 0;
+  transition: var(--transition);
+  pointer-events: none;
 }
 
 .dashboard-card:hover {
   transform: translateY(-8px);
   box-shadow: var(--shadow-xl);
-  border-color: var(--border-medium);
+  border-color: rgba(17, 24, 39, 0.22);
+}
+
+.dashboard-card:hover::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.dashboard-card:hover::after {
+  opacity: 1;
 }
 
 .dashboard-card-icon {

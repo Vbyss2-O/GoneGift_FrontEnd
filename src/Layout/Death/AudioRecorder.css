@@ -1,31 +1,13 @@
 /* AudioRecorder.css - Professional Formal Design */
 
-/* CSS Variables */
-:root {
-  --primary: #a855f7;
-  --secondary: #ec4899;
-  --accent: #10b981;
-  --accent3: #10b981;
-  --accent4: #ef4444;
-  --text-primary: #333;
-  --text-gray: #bbb;
-  --bg-glass: rgba(255, 255, 255, 0.7);
-  --radius-xl: 1.5rem;
-  --radius-lg: 1rem;
-  --shadow-rainbow: 0 5px 20px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.08);
-  --shadow-xl: 0 4px 16px rgba(76, 175, 80, 0.15);
-  --blur-light: blur(8px);
-  --border-gradient: linear-gradient(90deg, #a855f7, #ec4899, #10b981);
-  --transition: all 0.3s ease;
-  --green-primary: #4CAF50;
-  --green-secondary: #66BB6A;
-  --green-light: #A5D6A7;
-}
+/* Keep color tokens global and only define local component extras */
 
 /* Recorder Container */
 .recorder-box {
-  max-width: 600px;
+  max-width: var(--gg-form-width);
+  --green-primary: #4CAF50;
+  --green-secondary: #66BB6A;
+  --green-light: #A5D6A7;
   /* Increased max-width for a wider box */
   min-height: 800px;
   width: 100%;
@@ -51,14 +33,10 @@
 
 .recorder-header h2 {
   margin-bottom: 2rem;
-  background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #111111;
   font-size: 2.25rem;
   font-weight: 700;
   letter-spacing: -0.5px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .recorder-header p {
@@ -67,24 +45,82 @@
   margin-bottom: 2rem;
 }
 
+.validation-section {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.input-userid {
+  width: 100%;
+  height: 46px;
+  padding: 0 0.95rem;
+  border-radius: 10px;
+  border: 1px solid var(--gg-border);
+  background: #fff;
+  color: #111111;
+  outline: none;
+}
+
+.input-userid:focus {
+  border-color: #9bb3cf;
+  box-shadow: 0 0 0 3px rgba(31, 78, 140, 0.12);
+}
+
+.validation-section .btn {
+  width: 100%;
+  min-height: var(--gg-btn-height);
+  padding: 0 var(--gg-btn-padding-x);
+  border-radius: var(--gg-btn-radius);
+  border: none;
+  background: var(--gg-success);
+  color: #fff;
+  font-size: var(--gg-btn-font-size);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.validation-section .btn:hover:not(:disabled) {
+  background: #186740;
+}
+
+.validation-section .btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.validation-message {
+  margin: 0.85rem 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.validation-message.success {
+  color: #186740;
+}
+
+.validation-message.error {
+  color: #b53636;
+}
+
 /* Professional Microphone Icon */
 .icon-circle {
   width: 96px;
   height: 96px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  background: var(--gg-success);
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 2rem;
   color: white;
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+  box-shadow: 0 4px 12px rgba(31, 122, 79, 0.3);
   transition: var(--transition);
   font-size: 2.5rem;
 }
 
 .icon-circle:hover {
-  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.4);
+  box-shadow: 0 6px 16px rgba(31, 122, 79, 0.4);
   transform: translateY(-2px);
 }
 
@@ -130,11 +166,12 @@
 }
 
 .controls .btn {
-  padding: 1rem 2.5rem;
+  min-height: var(--gg-btn-height);
+  padding: 0 var(--gg-btn-padding-x);
   border: none;
-  border-radius: var(--radius-lg);
+  border-radius: var(--gg-btn-radius);
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: var(--gg-btn-font-size);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -202,11 +239,12 @@
 }
 
 .actions .btn {
-  padding: 1rem 2.5rem;
+  min-height: var(--gg-btn-height);
+  padding: 0 var(--gg-btn-padding-x);
   border: none;
-  border-radius: var(--radius-lg);
+  border-radius: var(--gg-btn-radius);
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: var(--gg-btn-font-size);
   cursor: pointer;
   display: inline-flex;
   align-items: center;

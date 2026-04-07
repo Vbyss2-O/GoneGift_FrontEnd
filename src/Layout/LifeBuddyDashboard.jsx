@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { supabase } from "./Death/supabaseClient"; // Adjust path if needed
-import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
+import { getApiUrl } from "../config/env";
+
 import "./LifeBuddy.css"; // Import your CSS styles
 import BackButton from "./components/BackButton"; // Import the BackButton component
 
@@ -15,41 +16,10 @@ const LifeBuddyDashboard = () => {
   const [replyStatus, setReplyStatus] = useState(null);
   const [userx, setUserX] = useState(null);
   const navigate = useNavigate();
-  const [accessToken, setAccessToken] = useState(null);
-
-  // Effect to get the access token from Supabase session
-  useEffect(() => {
-    const initAuth = async () => {
-      const { data, error } = await supabase.auth.getSession();
-      if (error) {
-        console.error("Error getting session:", error);
-        setError("Failed to authenticate session."); // Set error for the user
-        return;
-      }
-
-      const token = data.session?.access_token;
-
-      if (token) {
-        setAccessToken(token);
-      } else {
-        console.warn("No access token found—user probably signed out.");
-        // If no token, and it's needed for the dashboard, consider redirecting to login
-        // setError("User not authenticated. Please log in."); // Can also set error here
-      }
-    };
-
-    initAuth();
-  }, []); // Run only once on component mount
 
   // Fetch userIdX and initial DeathUser data from Supabase and API
-  // This effect now depends on `accessToken`
   useEffect(() => {
     const fetchUserData = async () => {
-      if (!accessToken) {
-        // Don't proceed if accessToken is not available yet
-        return;
-      }
-
       try {
         const {
           data: { user },
@@ -63,17 +33,12 @@ const LifeBuddyDashboard = () => {
 
         // Fetch DeathUser data
         const userResponse = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/deathusers/${user.id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
+          `${getApiUrl("")}/api/deathusers/${user.id}`
         );
         setUserX(userResponse.data);
 
-        // Now fetch activities, passing accessToken
-        fetchActivities(user.id, accessToken); // Pass accessToken here
+        // Now fetch activities
+        fetchActivities(user.id);
       } catch (err) {
         setError("Failed to fetch user data. Please log in.");
         console.error(err);
@@ -81,23 +46,15 @@ const LifeBuddyDashboard = () => {
     };
 
     fetchUserData();
-  }, [accessToken]); // Rerun when accessToken changes from null to a valid token
+  }, []);
 
   // Fetch LifeBuddy activities for the user
-  // This function now explicitly accepts accessToken
-  const fetchActivities = async (userId, token) => {
-    if (!userId || !token) return; // Ensure both are available
+  const fetchActivities = async (userId) => {
+    if (!userId) return;
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/lifebuddy/activities/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Use the passed token
-          },
-        }
-      );
+      const response = await axios.get(`${getApiUrl("")}/lifebuddy/activities/${userId}`);
       setActivities(Array.isArray(response.data) ? response.data : []);
     } catch (err) {
       if (err.response && err.response.status === 204) {
@@ -117,21 +74,10 @@ const LifeBuddyDashboard = () => {
       setReplyStatus("Please provide a reply message");
       return;
     }
-    if (!accessToken) {
-      setReplyStatus("Authentication token missing. Please log in again.");
-      return;
-    }
 
     setReplyStatus(null);
     try {
-      await axios.delete(
-        `${import.meta.env.VITE_API_URL}/buddy/delete/${userIdX}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      await axios.delete(`${getApiUrl("")}/buddy/delete/${userIdX}`);
 
       console.log("Previous logs deleted successfully Thank You!");
     } catch (err) {
@@ -140,20 +86,29 @@ const LifeBuddyDashboard = () => {
       // For now, it proceeds.
     }
     try {
-      const token = uuidv4();
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/buddy?userId=${userIdX}&token=${token}`,
+      const response = await axios.post(
+        `${getApiUrl("")}/buddy`,
+        null,
         {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
+          params: {
+            userId: userIdX,
           },
         }
       );
-      setReplyStatus(response.data);
+      setReplyStatus(
+        typeof response.data === "string"
+          ? response.data
+          : "Reply sent successfully"
+      );
       setReplyMessage("");
-      fetchActivities(userIdX, accessToken); // Ensure accessToken is passed
+      fetchActivities(userIdX);
     } catch (err) {
-      setReplyStatus("Failed to send reply. Try again!");
+      const apiErrorMessage =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        err.message ||
+        "Failed to send reply. Try again!";
+      setReplyStatus(`Failed to send reply: ${apiErrorMessage}`);
       console.error(err);
     }
   };
@@ -165,17 +120,10 @@ const LifeBuddyDashboard = () => {
   // Update DeathUser when replyStatus is not null
   useEffect(() => {
     const updateDeathUser = async () => {
-      if (!replyStatus || replyStatus.includes("Failed") || !userIdX || !accessToken) return; // Add accessToken check
+      if (!replyStatus || replyStatus.includes("Failed") || !userIdX) return;
 
       try {
-        const userResponse = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/deathusers/${userIdX}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
+        const userResponse = await axios.get(`${getApiUrl("")}/api/deathusers/${userIdX}`);
         const currentUser = userResponse.data;
         const updatedUser = {
           ...currentUser,
@@ -184,12 +132,11 @@ const LifeBuddyDashboard = () => {
         };
 
         await axios.post(
-          `${import.meta.env.VITE_API_URL}/api/deathusers`,
+          `${getApiUrl("")}/api/deathusers`,
           updatedUser,
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${accessToken}`,
             },
           }
         );
@@ -202,7 +149,7 @@ const LifeBuddyDashboard = () => {
     };
 
     updateDeathUser();
-  }, [replyStatus, userIdX, accessToken]); // Add accessToken to dependencies
+  }, [replyStatus, userIdX]);
 
   return (
     <>
@@ -277,7 +224,7 @@ const LifeBuddyDashboard = () => {
           />
           <button
             onClick={handleReply}
-            disabled={!userIdX || !replyMessage.trim() || !accessToken} // Disable if no accessToken
+            disabled={!userIdX || !replyMessage.trim()}
             style={{ background: "green", color: "white" }}
           >
             Send Reply

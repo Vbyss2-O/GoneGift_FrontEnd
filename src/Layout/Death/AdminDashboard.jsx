@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { getApiUrl } from "../../config/env";
+
 import { supabase } from "./supabaseClient"; // Ensure this path is correct
 
 const AdminDashboard = () => {
@@ -84,10 +86,9 @@ const AdminDashboard = () => {
 
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/admin/death-reports`,
+        `${getApiUrl("")}/api/admin/death-reports`,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
@@ -143,14 +144,13 @@ const AdminDashboard = () => {
     const secrectKey = report.secretKey;
     try {
       const deadUserResponse = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/deathusers/findUserByHashKey`,
+        `${getApiUrl("")}/api/deathusers/findUserByHashKey`,
         {
           params: {
             secrectKey: secrectKey,
           },
 
           headers: {
-            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
@@ -198,7 +198,7 @@ const AdminDashboard = () => {
     if (isValidated) {
       try {
         await axios.post(
-          `${import.meta.env.VITE_API_URL}/api/admin/death-reports/trigger`,
+          `${getApiUrl("")}/api/admin/death-reports/trigger`,
           null, // no request body
           {
             params: {
@@ -207,7 +207,6 @@ const AdminDashboard = () => {
             },
 
             headers: {
-              Authorization: `Bearer ${accessToken}`,
             },
           }
         );

@@ -1,569 +1,182 @@
-:root {
-  /* Primary Colors - Professional Blues */
-  --primary: #2563eb;
-  --primary-light: #60a5fa;
-  --primary-dark: #1d4ed8;
-  --primary-ultra-light: #eff6ff;
-
-  /* Secondary Colors - Neutral Grays */
-  --secondary: #475569;
-  --secondary-light: #94a3b8;
-  --secondary-dark: #334155;
-
-  /* Accent Colors - Professional Palette */
-  --accent: #059669; /* Green for success */
-  --accent2: #dc2626; /* Red for danger/error */
-  --accent3: #d97706; /* Orange/Warning */
-  --accent4: #7c3aed; /* Purple */
-  --accent5: #0891b2; /* Cyan */
-  --accent6: #be123c; /* Dark Red */
-
-  /* Background Colors - Clean and Professional */
-  --bg-main: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%, #f8fafc 100%);
-  --bg-white: #ffffff;
-  --bg-glass: rgba(255, 255, 255, 0.9);
-  --bg-glass-dark: rgba(255, 255, 255, 0.8);
-  --bg-light: #f8fafc;
-  --bg-neutral: #f1f5f9;
-  --bg-gradient-1: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-  --bg-gradient-2: linear-gradient(135deg, var(--accent) 0%, #047857 100%);
-  --bg-gradient-3: linear-gradient(135deg, var(--accent5) 0%, #0e7490 100%);
-  --bg-gradient-4: linear-gradient(135deg, var(--accent2) 0%, #b91c1c 100%);
-  --bg-gradient-5: linear-gradient(135deg, var(--accent3) 0%, #c2410c 100%);
-  --bg-gradient-6: linear-gradient(135deg, var(--accent4) 0%, #6d28d9 100%);
-
-  /* Text Colors - Professional Typography */
-  --text-primary: #1e293b;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
-  --text-light: #94a3b8;
-  --text-white: #ffffff;
-  --text-accent: #2563eb;
-
-  /* Border Colors - Subtle and Clean */
-  --border-light: #e2e8f0;
-  --border-medium: #cbd5e1;
-  --border-dark: #94a3b8;
-  --border-primary: #2563eb;
-
-  /* Shadows - Professional and Subtle */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.08);
-  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
-  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.06);
-  --shadow-blue: 0 4px 14px rgba(37, 99, 235, 0.15);
-  --shadow-green: 0 4px 14px rgba(5, 150, 105, 0.15);
-  --shadow-red: 0 4px 14px rgba(220, 38, 38, 0.15);
-  --shadow-glow: 0 0 0 3px var(--primary-light); /* Defined for consistent glow effect */
-
-  /* Transitions - Smooth and Professional */
-  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-
-  /* Spacing Scale */
-  --space-xs: 0.25rem;
-  --space-sm: 0.5rem;
-  --space-md: 1rem;
-  --space-lg: 1.5rem;
-  --space-xl: 2rem;
-  --space-2xl: 3rem;
-  --space-3xl: 4rem;
-
-  /* Border Radius - Consistent and Clean */
-  --radius-xs: 0.125rem;
-  --radius-sm: 0.25rem;
-  --radius-md: 0.375rem;
-  --radius-lg: 0.5rem;
-  --radius-xl: 0.75rem;
-  --radius-2xl: 1rem;
-  --radius-full: 50%;
-
-  /* Typography Scale */
-  --font-xs: 0.75rem;
-  --font-sm: 0.875rem;
-  --font-base: 1rem;
-  --font-lg: 1.125rem;
-  --font-xl: 1.25rem;
-  --font-2xl: 1.5rem;
-  --font-3xl: 1.875rem;
-  --font-4xl: 2.25rem;
-
-  /* Custom variables for FileUpload.css */
-  --border-gradient: linear-gradient(90deg, var(--primary), var(--accent));
-  --bg-sky-light: var(--primary-ultra-light); /* Using primary-ultra-light for sky effect */
-
-  /* Add RGB values for transparent gradients if not already in :root */
-  --primary-rgb: 37, 99, 235; /* RGB for #2563eb */
-  --accent-rgb: 5, 150, 105; /* RGB for #059669 */
-  --accent2-rgb: 220, 38, 38; /* RGB for #dc2626 */
+.no-auth {
+  max-width: var(--gg-form-width);
+  margin: 2rem auto;
+  text-align: center;
+  color: var(--gg-muted);
 }
 
-/* Main container for the file upload component */
 .file-upload {
-  max-width: 700px; /* Reverted to a defined max-width */
-  min-height: 600px; /* Added height for spaciousness */
-  margin: var(--space-2xl) auto; /* Centered with margin */
-  padding: var(--space-2xl); /* Increased padding */
-  background: var(--bg-glass); /* Glassmorphism background */
-  border-radius: var(--radius-xl); /* Smooth corners for the main box */
-  box-shadow: var(--shadow-xl); /* Reintroduced box-shadow */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  text-align: center;
-  backdrop-filter: blur(8px); /* Glass effect, using direct blur value */
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Reintroduced border */
-  transition: var(--transition-smooth); /* Smooth transition, using transition-smooth */
-  position: relative;
+  max-width: var(--gg-form-width);
+  margin: 2.5rem auto;
+  padding: 2rem;
+  background: var(--gg-bg-soft);
+  border: 1px solid var(--gg-border);
+  border-radius: var(--gg-radius);
+  box-shadow: var(--gg-shadow);
 }
 
 .file-upload h2 {
-  margin-bottom: var(--space-2xl); /* More spacing */
-  background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent)); /* Theme gradient */
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: var(--font-4xl); /* Larger header */
+  margin: 0 0 1.25rem;
+  text-align: center;
+  color: #111111;
   font-weight: 700;
-  letter-spacing: -0.5px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle depth */
 }
 
-/* Section for UUID and Password input */
 .uuid-section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg); /* Spacing between input groups and button */
-  width: 100%;
-  margin-bottom: var(--space-2xl);
-  padding: var(--space-xl);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-lg);
-  background-color: var(--bg-white);
-  box-shadow: var(--shadow-sm);
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 .input-group {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  text-align: left; /* Align labels to the left */
+  display: grid;
+  gap: 0.4rem;
 }
 
 .uuid-label,
 .password-label {
-  font-weight: 600; /* Slightly bolder labels */
-  margin-bottom: var(--space-sm); /* Space between label and input */
-  color: var(--text-primary);
-  font-size: var(--font-sm); /* Slightly smaller font for labels */
+  color: var(--gg-primary);
+  font-weight: 600;
 }
 
 .uuid-input,
 .password-input {
-  width: 100%; /* Full width */
-  padding: var(--space-md) var(--space-lg); /* Comfortable padding */
-  height: 3.5rem; /* Taller input */
-  background: var(--bg-white); /* White background */
-  border: 2px solid var(--border-light); /* Theme border */
-  border-radius: var(--radius-sm); /* Sharper corners for inputs */
-  font-size: var(--font-lg); /* Larger font */
-  color: var(--text-primary); /* Theme text */
+  width: 100%;
+  padding: 0.8rem 0.95rem;
+  border: 1px solid var(--gg-border);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--gg-text);
   outline: none;
-  transition: var(--transition); /* Smooth transition */
-  font-family: 'Consolas', monospace; /* Monospace for UUID and password */
 }
 
 .uuid-input:focus,
 .password-input:focus {
-  border-color: var(--primary); /* Primary color focus */
-  box-shadow: var(--shadow-glow); /* Glow effect, using theme variable */
-  transform: translateY(-2px); /* Subtle lift */
+  border-color: var(--gg-primary);
+  box-shadow: 0 0 0 3px rgba(31, 78, 140, 0.14);
 }
 
-.uuid-input:hover,
-.password-input:hover {
-  border-color: var(--primary-light); /* Lighter primary hover */
+.validate-button,
+.upload-button {
+  width: 100%;
+  border: none;
+  border-radius: var(--gg-btn-radius);
+  min-height: var(--gg-btn-height);
+  padding: 0 var(--gg-btn-padding-x);
+  color: #fff;
+  font-weight: 600;
+  font-size: var(--gg-btn-font-size);
+  cursor: pointer;
 }
-
 
 .validate-button {
-  padding: var(--space-md) var(--space-xl);
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: var(--text-white);
-  border: none;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  font-size: var(--font-lg);
-  font-weight: 600;
-  transition: var(--transition-smooth);
-  box-shadow: var(--shadow-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-sm); /* Space between text and spinner */
-  width: fit-content; /* Adjust width to content */
-  margin: 0 auto; /* Center the button */
+  background: var(--gg-success);
 }
 
-.validate-button:hover:not(:disabled) {
-  background: linear-gradient(135deg, var(--primary-light), var(--primary));
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
+.upload-button {
+  background: var(--gg-success);
 }
 
-.validate-button:disabled {
-  background: var(--secondary-light);
+.validate-button:disabled,
+.upload-button:disabled {
+  opacity: 1;
+  background: var(--gg-success);
+  color: #fff;
+  filter: none;
   cursor: not-allowed;
-  opacity: 0.8;
 }
 
-/* Loading spinner for the button */
-.loading-spinner {
-  width: var(--font-lg); /* Use font size for spinner size */
-  height: var(--font-lg);
-  border: 2px solid rgba(255, 255, 255, 0.5); /* Lighter border for spinner */
-  border-top-color: var(--text-white); /* White top border for contrast */
-  border-radius: var(--radius-full);
-  animation: spin 1s linear infinite;
+.button-container .upload-button:disabled {
+  background: var(--gg-success) !important;
+  color: #fff !important;
+  opacity: 1 !important;
+  filter: none !important;
 }
 
-/* Upload section styles */
-.upload-section {
-  width: 100%;
+.button-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-xl);
+  width: 100%;
+  align-items: stretch;
+}
+
+.upload-section {
+  display: grid;
+  gap: 1rem;
 }
 
 .upload-zone {
-  border: 3px dashed var(--primary-light); /* Theme dashed border */
-  border-radius: var(--radius-lg);
-  padding: var(--space-xl);
+  border: 2px dashed var(--gg-border);
+  border-radius: 12px;
+  background: #f8fbff;
   text-align: center;
-  cursor: pointer;
-  width: 100%;
-  transition: var(--transition-smooth);
+  padding: 1.35rem;
   position: relative;
-  overflow: hidden;
-  background-color: var(--bg-sky-light);
-  display: flex;
-  flex-direction: column;
+}
+
+.upload-zone-icon {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-md);
-  min-height: 200px; /* Minimum height for the drop zone */
-}
-
-.upload-zone:hover {
-  border-color: var(--primary);
-  background-color: rgba(var(--primary-rgb), 0.1); /* Subtle primary tint on hover */
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-glow);
-}
-
-.upload-zone-icon img {
-  width: 60px; /* Larger icon for better visibility */
-  height: 60px;
-  opacity: 0.7; /* Slightly faded icon */
-  transition: var(--transition);
-}
-
-.upload-zone:hover .upload-zone-icon img {
-  opacity: 1; /* Full opacity on hover */
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #e7eef8;
+  color: var(--gg-primary);
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.65rem;
 }
 
 .upload-zone-text {
-  font-size: var(--font-lg);
-  color: var(--text-secondary);
-  line-height: 1.6;
+  margin: 0;
+  color: var(--gg-muted);
 }
 
 .upload-zone input[type="file"] {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   opacity: 0;
   cursor: pointer;
-  z-index: 10;
 }
 
-.upload-zone input[type="file"]:disabled {
-  cursor: not-allowed;
-}
-
-.button-container {
-  width: 100%;
-}
-
-.upload-button {
-  padding: var(--space-md) var(--space-xl);
-  /* Changed this line to use a plain green from your variables */
-  background: var(--accent); /* Using the --accent variable for plain green */
-  color: var(--text-white);
-  border: none;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  font-size: var(--font-lg);
-  font-weight: 600;
-  transition: var(--transition-smooth);
-  width: 100%;
-  box-shadow: var(--shadow-md);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-sm);
-}
-
-.upload-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: var(--transition);
-}
-
-.upload-button:hover:not(:disabled) {
-  /* Using a slightly darker shade of green for hover, based on --accent if available, or a hardcoded value */
-  background: #047857; /* A slightly darker green than --accent */
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-xl);
-}
-
-.upload-button:hover:not(:disabled)::before {
-  left: 100%;
-}
-
-.upload-button:disabled {
-  background: var(--secondary-light);
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-
-/* Message styling */
 .status-message {
-  margin-top: var(--space-xl);
-  padding: var(--space-md) var(--space-lg);
-  border-radius: var(--radius-md);
-  width: 100%;
+  margin-top: 1rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
   text-align: center;
   font-weight: 600;
-  line-height: 1.5;
 }
 
 .status-message.success {
-  background-color: rgba(var(--accent-rgb), 0.1);
-  color: var(--accent);
-  border: 1px solid rgba(var(--accent-rgb), 0.2);
+  color: var(--gg-success);
+  background: #ecf9f2;
+  border: 1px solid #b9e7cf;
 }
 
 .status-message.error {
-  background-color: rgba(var(--accent2-rgb), 0.1);
-  color: var(--accent2);
-  border: 1px solid rgba(var(--accent2-rgb), 0.2);
+  color: var(--gg-danger);
+  background: #fdeeee;
+  border: 1px solid #f3bdbd;
 }
 
-/* General styles for disabled elements */
-*:disabled {
-  cursor: not-allowed !important;
+.loading-spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  animation: spin 0.9s linear infinite;
 }
 
-/* Back button (assuming it's a separate component, just adding placeholder styling) */
-.back-button {
-  margin-bottom: var(--space-xl);
-  padding: var(--space-sm) var(--space-md);
-  background-color: var(--secondary);
-  color: var(--text-white);
-  border: none;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: var(--transition);
-  font-size: var(--font-base);
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.back-button:hover {
-  background-color: var(--secondary-dark);
-}
-
-/* Responsive Styles */
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
   .file-upload {
-    max-width: 600px;
-    min-height: 550px;
-    padding: var(--space-xl);
-    margin: var(--space-xl) auto;
-  }
-
-  .file-upload h2 {
-    font-size: var(--font-3xl);
-  }
-
-  .uuid-input,
-  .password-input {
-    height: 3rem;
-    font-size: var(--font-base);
-  }
-
-  .upload-zone {
-    min-height: 180px;
-    padding: var(--space-lg);
-  }
-
-  .upload-zone-icon img {
-    width: 50px;
-    height: 50px;
-  }
-
-  .upload-zone-text,
-  .upload-button,
-  .validate-button {
-    font-size: var(--font-base);
-  }
-}
-
-@media (max-width: 767px) {
-  .file-upload {
-    max-width: 100%;
-    min-height: 100vh;
-    padding: var(--space-lg);
-    margin: 0;
-    border-radius: 0;
-    box-shadow: none;
-    border: none;
-    justify-content: center; /* Center content vertically on small screens */
-  }
-
-  .file-upload h2 {
-    font-size: var(--font-2xl);
-    margin-bottom: var(--space-lg);
-  }
-
-  .uuid-section {
-    padding: var(--space-md);
-    gap: var(--space-md);
-  }
-
-  .uuid-label,
-  .password-label {
-    font-size: var(--font-sm);
-  }
-
-  .uuid-input,
-  .password-input {
-    height: 2.8rem;
-    font-size: var(--font-sm);
-    padding: var(--space-sm);
-  }
-
-  .validate-button {
-    padding: var(--space-sm) var(--space-lg);
-    font-size: var(--font-sm);
-  }
-
-  .upload-zone {
-    min-height: 150px;
-    padding: var(--space-md);
-    margin: var(--space-md) 0;
-  }
-
-  .upload-zone-icon img {
-    width: 40px;
-    height: 40px;
-  }
-
-  .upload-zone-text {
-    font-size: var(--font-sm);
-  }
-
-  .upload-button {
-    padding: var(--space-sm) var(--space-lg);
-    font-size: var(--font-sm);
-  }
-
-  .status-message {
-    font-size: var(--font-xs);
-    padding: var(--space-sm);
-    margin-top: var(--space-md);
-  }
-}
-
-/* Tablet Screens (min-width: 768px and max-width: 1023px) */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .file-upload {
-    max-width: 80%;
-    min-height: 500px;
-    padding: var(--space-2xl);
-    margin: var(--space-xl) auto;
-  }
-
-  .file-upload h2 {
-    font-size: var(--font-3xl);
-  }
-
-  .uuid-input,
-  .password-input {
-    height: 3.25rem;
-    font-size: var(--font-lg);
-    padding: var(--space-sm) var(--space-md);
-  }
-
-  .upload-zone {
-    min-height: 200px;
-    padding: var(--space-lg);
-  }
-
-  .upload-zone-text,
-  .upload-button,
-  .validate-button {
-    font-size: var(--font-lg);
-  }
-}
-
-/* Laptop Screens (min-width: 1024px and max-width: 1439px) */
-@media (min-width: 1024px) and (max-width: 1439px) {
-  .file-upload {
-    max-width: 650px;
-    min-height: 580px;
-    padding: var(--space-2xl);
-    margin: var(--space-2xl) auto;
-  }
-
-  .file-upload h2 {
-    font-size: var(--font-4xl);
-  }
-}
-
-/* Standard Desktop (min-width: 1440px and max-width: 1919px) */
-@media (min-width: 1440px) and (max-width: 1919px) {
-  .file-upload {
-    max-width: 700px;
-    min-height: 600px;
-    padding: var(--space-3xl);
-    margin: var(--space-3xl) auto;
-  }
-
-  .file-upload h2 {
-    font-size: var(--font-4xl);
-  }
-}
-
-/* Large Desktop Screens (min-width: 1920px) */
-@media (min-width: 1920px) {
-  .file-upload {
-    max-width: 800px;
-    min-height: 650px;
-    padding: var(--space-3xl);
-    margin: var(--space-3xl) auto;
-  }
-
-  .file-upload h2 {
-    font-size: var(--font-4xl);
+    margin: 1.25rem;
+    padding: 1.25rem;
   }
 }

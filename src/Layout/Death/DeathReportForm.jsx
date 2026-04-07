@@ -4,6 +4,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import DragNdrop from "../components/DragNDrop";
 import BackButton from "../components/BackButton";
+import "./DeathReportForm.css";
+
+import { getApiUrl } from "../../config/env";
 
 const DeathReportForm = () => {
   const navigate = useNavigate();
@@ -86,23 +89,19 @@ const DeathReportForm = () => {
       const input = secretId.trim() + "Vedant_Kasar" + password.trim();
       const hashedToken = await hashWithSalt(input);
       const response = await axios.get(
-        `${
-          import.meta.env.VITE_API_URL
-        }/api/deathusers/findHashToken/${hashedToken}`,
+        `${getApiUrl("")}/api/deathusers/findHashToken/${hashedToken}`,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
       //finded hashtoken of current user (this is because user cant able to fool me with entering his own credentials)
       const check = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/deathusers/findHashTokenByUUID/${
+        `${getApiUrl("")}/api/deathusers/findHashTokenByUUID/${
           currentUser.id
         }`,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
@@ -183,12 +182,11 @@ const DeathReportForm = () => {
       };
 
       await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/death-reports`,
+        `${getApiUrl("")}/api/death-reports`,
         reportData,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
@@ -218,28 +216,36 @@ const DeathReportForm = () => {
   return (
     <>
       <BackButton />
-      <div style={styles.container}>
-        <h2 style={styles.header}>Report a Death</h2>
+      <div className="death-report-form-container">
+        <h2 className="death-report-form-title">Report a Death</h2>
         <form onSubmit={handleSubmit}>
-          <div style={styles.inputGroup}>
-            <label style={styles.label}>ID</label>
+          <div className="death-report-field">
+            <label className="death-report-label">ID</label>
             <input
               type="password"
               value={secretId}
-              onChange={(e) => setSecretId(e.target.value)}
+              onChange={(e) => {
+                setSecretId(e.target.value);
+                setIsUuidValid(false);
+                setKey("");
+              }}
               placeholder="Enter the secret ID of the Deceased user"
-              style={styles.input}
+              className="death-report-input"
               required
             />
           </div>
-          <div style={styles.inputGroup}>
-            <label style={styles.label}>Password</label>
+          <div className="death-report-field">
+            <label className="death-report-label">Password</label>
             <input
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setIsUuidValid(false);
+                setKey("");
+              }}
               placeholder="Enter the Password of the Deceased user  "
-              style={styles.input}
+              className="death-report-input"
               required
             />
           </div>
@@ -248,8 +254,8 @@ const DeathReportForm = () => {
             <button
               type="button"
               onClick={validateUuid}
-              disabled={loading}
-              style={{ ...styles.button, background: "green" }}
+              disabled={loading || !secretId.trim() || !password.trim()}
+              className="death-report-button death-report-button-validate"
             >
               {loading ? "Validating..." : "Validate ID"}
             </button>
@@ -260,8 +266,8 @@ const DeathReportForm = () => {
           >
             {" "}
             {/* Disable fields until UUID is valid */}
-            <div style={styles.inputGroup}>
-              <label style={styles.label}>Name</label>
+            <div className="death-report-field">
+              <label className="death-report-label">Name</label>
               <input
                 type="text"
                 value={name}
@@ -269,12 +275,12 @@ const DeathReportForm = () => {
                   setName(e.target.value.toLowerCase().replace(/[^a-z]/g, ""))
                 }
                 placeholder="Enter the user’s name"
-                style={styles.input}
+                className="death-report-input"
                 required
               />
             </div>
-            <div style={styles.inputGroup}>
-              <label style={styles.label}>Middle Name</label>
+            <div className="death-report-field">
+              <label className="death-report-label">Middle Name</label>
               <input
                 type="text"
                 value={middleName}
@@ -284,12 +290,12 @@ const DeathReportForm = () => {
                   )
                 }
                 placeholder="Enter the user’s Middle Name"
-                style={styles.input}
+                className="death-report-input"
                 required
               />
             </div>
-            <div style={styles.inputGroup}>
-              <label style={styles.label}>Surname</label>
+            <div className="death-report-field">
+              <label className="death-report-label">Surname</label>
               <input
                 type="text"
                 value={surname}
@@ -299,45 +305,45 @@ const DeathReportForm = () => {
                   )
                 }
                 placeholder="Enter the user’s surname"
-                style={styles.input}
+                className="death-report-input"
                 required
               />
             </div>
-            <div style={styles.inputGroup}>
-              <label style={styles.label}>Date of Birth</label>
+            <div className="death-report-field">
+              <label className="death-report-label">Date of Birth</label>
               <input
                 type="date" // Kept as text as per original, but type="date" could be considered
                 value={dob} // Corrected: value should be dob
                 onChange={(e) => setDob(e.target.value)} // Corrected: onChange should set dob
                 placeholder="Enter Date of Birth (DD-MM-YYYY)"
-                style={styles.input}
+                className="death-report-input"
                 required
               />
             </div>
-            <div style={styles.inputGroup}>
-              <label style={styles.label}>Email</label>{" "}
+            <div className="death-report-field">
+              <label className="death-report-label">Email</label>{" "}
               {/* Changed label to "Email" */}
               <input
                 type="email" // Changed type to "email" for better validation
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter the user’s email"
-                style={styles.input}
+                className="death-report-input"
                 required
               />
             </div>
-            <div style={styles.inputGroup}>
-              <label style={styles.label}>Details (Optional)</label>{" "}
+            <div className="death-report-field">
+              <label className="death-report-label">Details (Optional)</label>{" "}
               {/* Added (Optional) */}
               <textarea
                 value={reportDetails}
                 onChange={(e) => setReportDetails(e.target.value)}
                 placeholder="Provide any additional details (e.g., date of death, place of death)"
-                style={styles.textarea}
+                className="death-report-textarea"
               />
             </div>
             <div>
-              <label style={styles.label}>
+              <label className="death-report-label">
                 Upload Death Certificate (PDF only)
               </label>{" "}
               {/* Clarified file type */}
@@ -348,7 +354,7 @@ const DeathReportForm = () => {
             <button
               type="submit"
               disabled={loading || !isUuidValid}
-              style={styles.button}
+              className="death-report-button"
             >
               {" "}
               {/* Disable submit if not validated */}
@@ -357,94 +363,13 @@ const DeathReportForm = () => {
           </fieldset>
         </form>
         {message && (
-          <p
-            style={message.includes("success") ? styles.success : styles.error}
-          >
+          <p className={message.includes("success") ? "death-report-success" : "death-report-error"}>
             {message}
           </p>
         )}
       </div>
     </>
   );
-};
-
-const styles = {
-  container: {
-    padding: "2.5rem",
-    maxWidth: "650px",
-    margin: "2rem auto",
-    background: "#ffffffcc",
-    borderRadius: "12px",
-    boxShadow: "0 8px 30px rgba(0,0,0,0.1)",
-  },
-  header: {
-    color: "#1f2937",
-    fontSize: "1.75rem",
-    fontWeight: "700",
-    textAlign: "center",
-    marginBottom: "1.5rem",
-  },
-  inputGroup: {
-    marginBottom: "1.25rem",
-  },
-  label: {
-    color: "#374151",
-    fontSize: "1rem",
-    fontWeight: "500",
-    marginBottom: "0.5rem",
-    display: "block",
-  },
-  input: {
-    width: "100%",
-    padding: "0.75rem 1rem",
-    fontSize: "1rem",
-    border: "1px solid #d1d5db",
-    borderRadius: "8px",
-    outline: "none",
-    backgroundColor: "#f9fafb",
-    transition: "border-color 0.3s ease",
-  },
-  textarea: {
-    width: "100%",
-    padding: "0.75rem 1rem",
-    fontSize: "1rem",
-    minHeight: "120px",
-    border: "1px solid #d1d5db",
-    borderRadius: "8px",
-    outline: "none",
-    backgroundColor: "#f9fafb",
-    resize: "vertical",
-  },
-  button: {
-    padding: "1rem 2rem",
-    background: "linear-gradient(135deg,rgb(45, 126, 49),rgb(45, 126, 49))",
-    color: "#fff",
-    border: "none",
-    borderRadius: "10px",
-    fontSize: "1rem",
-    fontWeight: "600",
-    cursor: "pointer",
-    width: "100%",
-    marginTop: "1rem",
-    transition: "background 0.3s ease",
-    boxShadow: "0 4px 10px rgba(45, 126, 49, 0.3)", // Added subtle shadow
-  },
-  success: {
-    color: "#047857",
-    backgroundColor: "#d1fae5",
-    border: "1px solid #10b981",
-    padding: "1rem",
-    borderRadius: "8px",
-    marginTop: "1.25rem",
-  },
-  error: {
-    color: "#b91c1c",
-    backgroundColor: "#fee2e2",
-    border: "1px solid #ef4444",
-    padding: "1rem",
-    borderRadius: "8px",
-    marginTop: "1.25rem",
-  },
 };
 
 export default DeathReportForm;
