@@ -1,15 +1,15 @@
 .beneficiary-form-container {
-  max-width: 980px;
-  margin: 2.5rem auto;
-  padding: 2.75rem;
-  min-height: 78vh;
+  max-width: 1150px;
+  margin: 3.5rem auto;
+  padding: 3.5rem;
+  min-height: 85vh;
   background: var(--gg-bg-soft);
   border: 1px solid var(--gg-border);
   border-radius: var(--gg-radius);
   box-shadow: var(--gg-shadow);
   display: grid;
-  grid-template-columns: 1fr 1.35fr;
-  gap: 1.5rem;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 2rem;
   align-items: stretch;
 }
 
@@ -18,23 +18,24 @@
   text-align: left;
   color: #111111;
   font-weight: 700;
+  font-size: 2rem;
 }
 
 .beneficiary-form-intro {
   border: 1px solid var(--gg-border);
   border-radius: 12px;
   background: #f7fafc;
-  padding: 1.25rem;
+  padding: 1.75rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .beneficiary-form-intro h3 {
   margin: 0;
   color: #111111;
-  font-size: 1.15rem;
+  font-size: 1.35rem;
   font-weight: 700;
   text-align: left;
 }
@@ -42,7 +43,8 @@
 .beneficiary-form-intro p {
   margin: 0;
   color: var(--gg-muted);
-  line-height: 1.62;
+  line-height: 1.7;
+  font-size: 1rem;
   text-align: left;
 }
 
@@ -50,13 +52,13 @@
   border: 1px solid var(--gg-border);
   border-radius: 12px;
   background: #ffffff;
-  padding: 1.35rem;
+  padding: 1.75rem;
 }
 
 .beneficiary-form-grid {
   display: flex;
   flex-direction: column;
-  gap: 0.95rem;
+  gap: 1.25rem;
 }
 
 .beneficiary-form-input-group {
@@ -69,19 +71,22 @@
 
 .beneficiary-form-label {
   display: block;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.45rem;
   font-weight: 600;
   color: #111111;
+  font-size: 1rem;
 }
 
 .beneficiary-form-input {
   width: 100%;
-  padding: 0.8rem 0.95rem;
+  padding: 1rem 1.1rem;
   border: 1px solid var(--gg-border);
   border-radius: 10px;
   background: #fff;
   color: var(--gg-text);
   outline: none;
+  font-size: 1rem;
+  transition: all 0.2s ease;
 }
 
 .beneficiary-form-input:focus {
@@ -91,16 +96,22 @@
 
 .beneficiary-form-button {
   width: 100%;
-  min-height: var(--gg-btn-height);
+  min-height: 52px;
   padding: 0 var(--gg-btn-padding-x);
   border: none;
   border-radius: var(--gg-btn-radius);
   background: var(--gg-success);
   color: #fff;
   font-weight: 600;
-  font-size: var(--gg-btn-font-size);
+  font-size: 1.05rem;
   cursor: pointer;
-  margin-top: 0.35rem;
+  margin-top: 40px;
+  transition: all 0.2s ease;
+}
+
+.beneficiary-form-button:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
 }
 
 .beneficiary-form-button:disabled {
@@ -110,10 +121,11 @@
 
 .beneficiary-form-message {
   margin-top: 1rem;
-  padding: 0.75rem 0.9rem;
+  padding: 0.85rem 1rem;
   border-radius: 10px;
   text-align: center;
   font-weight: 600;
+  font-size: 0.95rem;
 }
 
 .beneficiary-form-message.success {
@@ -128,13 +140,14 @@
   border: 1px solid #f3bdbd;
 }
 
+/* Mobile responsive */
 @media (max-width: 768px) {
   .beneficiary-form-container {
-    margin: 1.25rem;
-    padding: 1.25rem;
+    margin: 1.5rem;
+    padding: 1.5rem;
     min-height: auto;
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 1.25rem;
   }
 
   .beneficiary-form-title,
@@ -143,7 +156,11 @@
     text-align: center;
   }
 
-  .beneficiary-form-input-group.full-width {
-    width: 100%;
+  .beneficiary-form-title {
+    font-size: 1.6rem;
+  }
+
+  .beneficiary-form-input {
+    font-size: 0.95rem;
   }
 }

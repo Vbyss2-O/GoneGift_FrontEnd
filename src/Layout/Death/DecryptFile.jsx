@@ -20,7 +20,31 @@ const DecryptFile = () => {
   const [sharedFileList, setSharedFileList] = useState([]); // Renamed for clarity
   const [sharedFileMessage, setSharedFileMessage] = useState(""); // New state for shared file messages
   const [sharedFileLoading, setSharedFileLoading] = useState(false); // New state for shared file loading
-  const [accessToken , setAccessToken] = useState(null);
+  const [sharedPanelOpen, setSharedPanelOpen] = useState(false);
+
+  useEffect(() => {
+    if (!message.text || !message.isSuccess) {
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setMessage({ text: "", isSuccess: false });
+    }, 2500);
+
+    return () => clearTimeout(timer);
+  }, [message]);
+
+  useEffect(() => {
+    if (!sharedFileMessage) {
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setSharedFileMessage("");
+    }, 2500);
+
+    return () => clearTimeout(timer);
+  }, [sharedFileMessage]);
   
 
   const hashWithSalt = async (x) => {
@@ -33,26 +57,6 @@ const DecryptFile = () => {
       .map((b) => b.toString(16).padStart(2, "0"))
       .join("");
   };
-   useEffect(() => {
-    const initAuth = async () => {
-      const { data, error } = await supabase.auth.getSession();
-      if (error) {
-        console.error("Error getting session:", error);
-        return;
-      }
-  
-      const accessToken = data.session?.access_token;
-  
-      if (accessToken) {
-        setAccessToken(accessToken);
-      } else {
-        console.warn("No access token found—user probably signed out.");
-      }
-    };
-  
-    initAuth();
-  }, []);
-
   const validateUuid = async () => {
     setLoading(true);
     setError(null);
@@ -446,6 +450,7 @@ const DecryptFile = () => {
   };
 
   const showAllFileStoredOfSharedSpace = async () => {
+    setSharedPanelOpen(true);
     if (!isUuidValid) {
       setSharedFileMessage("Please validate your ID and password first.");
       return;
@@ -566,9 +571,19 @@ const DecryptFile = () => {
     }
   };
 
+  const hasPersonalFiles = decryptedFiles.length > 0;
+  const hasSharedContent =
+    sharedPanelOpen &&
+    (sharedFileLoading || sharedFileList.length > 0 || !!sharedFileMessage);
+  const hasRightPanelContent = hasPersonalFiles || hasSharedContent;
+
 
   return (
-    <div className="decryptfile-container">
+    <div
+      className={`decryptfile-container ${
+        hasRightPanelContent ? "has-right-content" : "no-right-content"
+      }`}
+    >
       <h2 className="decryptfile-title">Decrypt Files</h2>
       {error && <p className="decryptfile-error">{error}</p>}
       {message.text && (
@@ -618,6 +633,13 @@ const DecryptFile = () => {
             className="decryptfile-btn decryptfile-btn-decrypt"
           >
             {loading ? "Decrypting..." : "Decrypt Personal Files"}
+          </button>
+          <button
+            onClick={showAllFileStoredOfSharedSpace}
+            disabled={loading || !uuid || !isUuidValid || encryptedFileUrls.length === 0 || sharedFileLoading}
+            className="decryptfile-btn decryptfile-btn-decrypt"
+          >
+            {sharedFileLoading ? "Loading Shared Files..." : "Show Shared Files"}
           </button>
         </div>
       </div>
@@ -683,24 +705,26 @@ const DecryptFile = () => {
             </div>
           ))}
         </div>
-      )};
+      )}
 
-      {/* Shared Files Section */}
-      <hr className="decryptfile-separator" />
-      <div className="view-files-section">
-        <h3 className="section-title">Shared Files</h3>
-        <button
-          onClick={showAllFileStoredOfSharedSpace}
-          disabled={sharedFileLoading || !uuid || !isUuidValid}
-          className="action-button secondary-button"
-          style={{ color: "White" }}
-        >
-          {sharedFileLoading ? "Loading Shared Files..." : "Show Shared Files"}
-        </button>
+      {hasSharedContent && (
+        <>
+          <hr className="decryptfile-separator" />
+          <div className="view-files-section">
+            <h3 className="section-title">Shared Files</h3>
+            {sharedFileMessage && (
+              <p
+                className={`message-box ${
+                  sharedFileMessage.toLowerCase().includes("failed")
+                    ? "message-error"
+                    : "message-success"
+                }`}
+              >
+                {sharedFileMessage}
+              </p>
+            )}
 
-        
-
-        {sharedFileList.length > 0 && (
+            {sharedFileList.length > 0 && (
           <div className="file-list-container">
             <h4 className="list-title">Decrypted Shared Files:</h4>
             <ul className="file-list">
@@ -722,8 +746,10 @@ const DecryptFile = () => {
               ))}
             </ul>
           </div>
-        )}
-      </div>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };
