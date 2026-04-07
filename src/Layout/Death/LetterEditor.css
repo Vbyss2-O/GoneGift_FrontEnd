@@ -1,0 +1,128 @@
+.letter-editor-page {
+  max-width: var(--gg-form-width);
+  margin: 2.5rem auto;
+  display: grid;
+  gap: 1rem;
+}
+
+.letter-auth-box,
+.letter-main-card {
+  background: var(--gg-bg-soft);
+  border: 1px solid var(--gg-border);
+  border-radius: var(--gg-radius);
+  box-shadow: var(--gg-shadow);
+  padding: 1.5rem;
+}
+
+.letter-header {
+  margin: 0 0 1rem;
+  text-align: center;
+  color: #111111;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.letter-field {
+  display: grid;
+  gap: 0.4rem;
+  margin-bottom: 0.8rem;
+}
+
+.letter-label {
+  color: #111111;
+  font-weight: 700;
+}
+
+.letter-input {
+  width: 100%;
+  height: 46px;
+  border: 1px solid var(--gg-border);
+  border-radius: 10px;
+  padding: 0 0.95rem;
+  background: #fff;
+  color: #111111;
+  outline: none;
+}
+
+.letter-input:focus {
+  border-color: #9bb3cf;
+  box-shadow: 0 0 0 3px rgba(31, 78, 140, 0.12);
+}
+
+.letter-quill-wrap {
+  margin-top: 0.5rem;
+}
+
+.letter-quill-wrap .ql-toolbar {
+  border: 1px solid var(--gg-border);
+  border-bottom: none;
+  border-radius: 10px 10px 0 0;
+}
+
+.letter-quill-wrap .ql-container {
+  min-height: 240px;
+  border: 1px solid var(--gg-border);
+  border-radius: 0 0 10px 10px;
+  background: #fff;
+}
+
+.letter-btn {
+  width: 100%;
+  min-height: var(--gg-btn-height);
+  border: none;
+  border-radius: var(--gg-btn-radius);
+  padding: 0 var(--gg-btn-padding-x);
+  background: var(--gg-success);
+  color: #fff;
+  font-size: var(--gg-btn-font-size);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.letter-btn:hover:not(:disabled) {
+  background: #186740;
+}
+
+.letter-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.letter-button-row {
+  margin-top: 1rem;
+}
+
+.letter-message {
+  margin-top: 1rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.letter-message.success {
+  color: var(--gg-success);
+  background: #ecf9f2;
+  border: 1px solid #b9e7cf;
+}
+
+.letter-message.error {
+  color: var(--gg-danger);
+  background: #fdeeee;
+  border: 1px solid #f3bdbd;
+}
+
+@media (max-width: 768px) {
+  .letter-editor-page {
+    margin: 1.25rem;
+  }
+
+  .letter-auth-box,
+  .letter-main-card {
+    padding: 1.2rem;
+  }
+
+  .letter-header {
+    font-size: 1.5rem;
+  }
+}

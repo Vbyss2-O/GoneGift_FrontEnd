@@ -6,16 +6,21 @@ import CryptoJS from "crypto-js";
 import "./FileUpload.css";
 import BackButton from "../components/BackButton";
 
+import { getApiUrl } from "../../config/env";
+
 const FileUpload = () => {
   const [file, setFile] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [message, setMessage] = useState({ text: null, isSuccess: false });
-  const [loading, setLoading] = useState(false);
+  const [validationLoading, setValidationLoading] = useState(false);
+  const [uploadLoading, setUploadLoading] = useState(false);
   const [decryptedKey, setDecryptedKey] = useState(null);
   const [uuid, setUuid] = useState("");
   const [password, setPassword] = useState("");
   const [isUuidValid, setIsUuidValid] = useState(false);
   const [accessToken, setAccessToken] = useState(null);
+
+  const isBusy = validationLoading || uploadLoading;
 
   const hashWithSalt = async (x) => {
     const salt = x.substring(0, 16);
@@ -67,12 +72,11 @@ const FileUpload = () => {
   const getEncryptedKey = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/deathusers/getKey/${
+        `${getApiUrl("")}/api/deathusers/getKey/${
           currentUser.id
         }`,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
@@ -137,15 +141,14 @@ const FileUpload = () => {
       });
       return;
     }
-    setLoading(true);
+    setValidationLoading(true);
     try {
       const input = uuid.trim() + "Vedant_Kasar" + password.trim();
       const hashedToken = await hashWithSalt(input);
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/deathusers/findHashToken/${hashedToken}`,
+        `${getApiUrl("")}/api/deathusers/findHashToken/${hashedToken}`,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
@@ -184,7 +187,7 @@ const FileUpload = () => {
         });
       }
     } finally {
-      setLoading(false);
+      setValidationLoading(false);
     }
   };
 
@@ -255,7 +258,7 @@ const FileUpload = () => {
       });
       return;
     }
-    setLoading(true);
+    setUploadLoading(true);
     setMessage({ text: null, isSuccess: false });
     try {
       const fileData = await new Promise((resolve, reject) => {
@@ -300,12 +303,11 @@ const FileUpload = () => {
         },
       };
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/filemetadata`,
+        `${getApiUrl("")}/api/filemetadata`,
         fileMetadata,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
@@ -325,7 +327,7 @@ const FileUpload = () => {
         isSuccess: false,
       });
     } finally {
-      setLoading(false);
+      setUploadLoading(false);
     }
   };
 
@@ -354,7 +356,7 @@ const FileUpload = () => {
               value={uuid}
               onChange={(e) => setUuid(e.target.value)}
               className="uuid-input"
-              disabled={loading}
+              disabled={isBusy}
             />
           </div>
           <div className="input-group">
@@ -368,16 +370,16 @@ const FileUpload = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="password-input"
-              disabled={loading}
+              disabled={isBusy}
             />
           </div>
           <button
             onClick={validateUuid}
-            disabled={!uuid || !password || !currentUser || loading}
-            className={`validate-button ${loading ? "loading" : ""}`}
+            disabled={!uuid || !password || !currentUser || isBusy}
+            className={`validate-button ${validationLoading ? "loading" : ""}`}
           >
-            {loading ? (
-              <img src="/loading.gif" alt="Loading" className="loading-spinner" />
+            {validationLoading ? (
+              <span className="loading-spinner" aria-hidden="true"></span>
             ) : (
               "Validate Secrets"
             )}
@@ -385,13 +387,7 @@ const FileUpload = () => {
         </div>
         <div className="upload-section">
           <div className="upload-zone">
-            <span className="upload-zone-icon">
-              <img
-                src="/logo.png"
-                alt="Upload Icon"
-                style={{ width: "40px", height: "40px" }}
-              />
-            </span>
+            <span className="upload-zone-icon" aria-hidden="true">+</span>
             <p className="upload-zone-text">
               {file
                 ? `Selected: ${file.name} (${(file.size / 1024).toFixed(2)} KB)`
@@ -401,16 +397,16 @@ const FileUpload = () => {
               type="file"
               onChange={handleFileChange}
               accept="image/*,video/*,application/pdf"
-              disabled={loading || !isUuidValid}
+              disabled={isBusy || !isUuidValid}
             />
           </div>
           <div className="button-container">
             <button
               onClick={handleSubmit}
-              disabled={loading || !file || !isUuidValid || !decryptedKey}
-              className={`upload-button ${loading ? "loading" : ""}`}
+              disabled={isBusy || !file || !isUuidValid || !decryptedKey}
+              className={`upload-button ${uploadLoading ? "loading" : ""}`}
             >
-              {loading ? "Encrypting & Uploading..." : "Upload Encrypted File"}
+              {uploadLoading ? "Encrypting & Uploading..." : "Upload Encrypted File"}
             </button>
           </div>
         </div>

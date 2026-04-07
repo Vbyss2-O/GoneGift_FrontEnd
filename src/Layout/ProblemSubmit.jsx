@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./ProblemSubmit.css";
-import axios from "axios";
-import { useEffect } from "react";
+
+import { getApiUrl } from "../config/env";
 
 const HelpCenterForm = () => {
   const [email, setEmail] = useState("");
@@ -20,7 +20,7 @@ const HelpCenterForm = () => {
     };
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/public/problem/add`, {
+      const response = await fetch(`${getApiUrl("")}/public/problem/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,59 +1,49 @@
 .gonegiftfeatures-container {
-  max-width: 700px;
-  margin: 3rem auto;
-  padding: 40px 28px;
-  background: var(--bg-glass, rgba(255,255,255,0.8));
-  border-radius: var(--radius-xl, 1.5rem);
-  box-shadow: var(--shadow-rainbow, 0 5px 20px rgba(0,0,0,0.08));
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  border: 1px solid rgba(255,255,255,0.2);
-  position: relative;
+  max-width: var(--gg-page-width);
+  margin: 2.75rem auto;
+  padding: 2rem;
+  background: var(--gg-bg-soft);
+  border: 1px solid var(--gg-border);
+  border-radius: var(--gg-radius);
+  box-shadow: var(--gg-shadow);
   text-align: left;
 }
 
 .gonegiftfeatures-title {
-  font-size: 2.2rem;
-  font-weight: 700;
+  font-size: 2rem;
   margin-bottom: 1.2rem;
-  background: linear-gradient(135deg, var(--primary, #a855f7), var(--secondary, #ec4899), var(--accent, #10b981));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  color: var(--gg-primary);
   text-align: center;
 }
 
 .gonegiftfeatures-list {
-  list-style: disc inside;
-  padding-left: 1.2rem;
+  list-style: none;
+  padding-left: 0;
   margin-bottom: 2rem;
 }
 
 .gonegiftfeatures-list li {
-  margin-bottom: 1.1rem;
-  font-size: 1.08rem;
-  color: #444;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  color: var(--gg-text);
   line-height: 1.7;
-  background: rgba(168,85,247,0.04);
-  border-radius: 0.7rem;
-  padding: 0.7rem 1rem 0.7rem 0.7rem;
-  box-shadow: 0 1px 4px rgba(168,85,247,0.04);
+  background: #f8fbff;
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--gg-border);
 }
 
 .gonegiftfeatures-list strong {
-  color: var(--primary, #a855f7);
-  font-weight: 700;
-  letter-spacing: 0.5px;
+  color: var(--gg-primary);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .gonegiftfeatures-container {
-    padding: 16px 4vw;
+    margin: 1.25rem;
+    padding: 1.25rem;
   }
+
   .gonegiftfeatures-title {
-    font-size: 1.3rem;
-  }
-  .gonegiftfeatures-list li {
-    font-size: 0.97rem;
-    padding: 0.6rem 0.7rem 0.6rem
+    font-size: 1.5rem;
   }
 }

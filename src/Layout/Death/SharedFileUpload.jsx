@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom"; // Corrected import f
 import DragNdrop from "../components/DragNDrop"; // Assuming this path is correct
 import { supabase } from "./supabaseClient"; // Assuming this path is correct
 import "./SharedFileUpload.css"; // Import the custom CSS file
+import { getApiUrl } from "../../config/env";
 
 const SharedFileUpload = () => {
   const [input, setInput] = useState("");
@@ -17,7 +18,6 @@ const SharedFileUpload = () => {
   const [fileList, setFileList] = useState([]);
   const navigate = useNavigate();
   const { token } = useParams();
-  const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -40,26 +40,6 @@ const SharedFileUpload = () => {
     fetchUser();
   }, [navigate]);
 
-  useEffect(() => {
-    const initAuth = async () => {
-      const { data, error } = await supabase.auth.getSession();
-      if (error) {
-        console.error("Error getting session:", error);
-        return;
-      }
-
-      const accessToken = data.session?.access_token;
-
-      if (accessToken) {
-        setAccessToken(accessToken);
-      } else {
-        console.warn("No access token found—user probably signed out.");
-      }
-    };
-
-    initAuth();
-  }, []);
-
   const hashReadableKey = (input) => {
     const hash = CryptoJS.SHA256(input);
     return hash.toString(CryptoJS.enc.Hex);
@@ -74,14 +54,8 @@ const SharedFileUpload = () => {
     setMessage("Validating password...");
     try {
       const response = await axios.get(
-        `${
-          import.meta.env.VITE_API_URL
-        }/shared-file/password/verify?token=${encodeURIComponent(token)}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
+        `${getApiUrl("/shared-file/password/verify")}?token=${encodeURIComponent(token)}`,
+        {}
       );
 
       const hashedInput = hashReadableKey(input.trim());
@@ -215,7 +189,7 @@ const SharedFileUpload = () => {
       setAuthorId(userId);
 
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/shared-file/getList`,
+        getApiUrl("/shared-file/getList"),
         {
           params: {
             authorId: userId,
@@ -473,12 +447,11 @@ const SharedFileUpload = () => {
       };
 
       await axios.post(
-        `${import.meta.env.VITE_API_URL}/shared-file/add-file`,
+        getApiUrl("/shared-file/add-file"),
         fileMetadata,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
           },
         }
       );

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "./supabaseClient";
+import { getApiUrl } from "../../config/env";
+
 import "./FileList.css"; // Import the CSS file
 import BackButton from "../components/BackButton"; // Import the BackButton component
 
@@ -92,10 +94,9 @@ const FileList = () => {
   const fetchFiles = async (userId) => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/deathusers/listOfFiles/${userId}`,
+        `${getApiUrl("")}/api/deathusers/listOfFiles/${userId}`,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
@@ -140,12 +141,9 @@ const FileList = () => {
   const fetchSharedFiles = async (userId) => {
     try {
       const response = await fetch(
-        `${
-          import.meta.env.VITE_API_URL
-        }/api/deathusers/listOfSharedFile/${userId}`,
+        `${getApiUrl("")}/api/deathusers/listOfSharedFile/${userId}`,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
@@ -190,11 +188,10 @@ const FileList = () => {
   const deleteFile = async (fileId) => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/filemetadata/${fileId}`,
+        `${getApiUrl("")}/api/filemetadata/${fileId}`,
         {
           method: "DELETE",
           headers: {
-            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
@@ -227,11 +224,10 @@ const FileList = () => {
   const delteSharedFile = async (fileId) => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/shared-file/delete/${fileId}`,
+        `${getApiUrl("")}/shared-file/delete/${fileId}`,
         {
           method: "DELETE",
           headers: {
-            Authorization: `Bearer ${accessToken}`,
           },
         }
       );

@@ -1,5 +1,5 @@
 .decryptfile-container {
-  max-width: 800px;
+  max-width: var(--gg-form-width);
   margin: 3rem auto;
   padding: 40px 28px;
   background: var(--bg-glass, rgba(255, 255, 255, 0.92));
@@ -23,8 +23,8 @@
 
 .decryptfile-note {
   font-size: 1.08rem;
-  color: #6b21a8;
-  background: linear-gradient(90deg, #f3e8ff 0%, #fdf2f8 100%);
+  color: var(--gg-muted);
+  background: #f8fbff;
   border-radius: 1rem;
   padding: 1rem 1.5rem;
   margin-bottom: 1.5rem;

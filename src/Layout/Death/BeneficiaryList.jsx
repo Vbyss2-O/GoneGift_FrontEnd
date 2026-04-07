@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "./supabaseClient";
 import BackButton from "../components/BackButton";
+import "./BeneficiaryList.css";
+
+import { getApiUrl } from "../../config/env";
 
 const BeneficiaryList = () => {
   const navigate = useNavigate();
@@ -117,12 +120,9 @@ const BeneficiaryList = () => {
       }
 
       const response = await fetch(
-        `${
-          import.meta.env.VITE_API_URL
-        }/api/deathusers/listOfBeneficiary/${userId}`,
+        `${getApiUrl("")}/api/deathusers/listOfBeneficiary/${userId}`,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
@@ -172,11 +172,10 @@ const BeneficiaryList = () => {
             return;
         }
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/beneficiaries/${beneficiaryId}`,
+        `${getApiUrl("")}/api/beneficiaries/${beneficiaryId}`,
         {
           method: "DELETE",
           headers: {
-            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
@@ -217,7 +216,7 @@ const BeneficiaryList = () => {
         {error && <div className="error-message">Error: {error}</div>}
 
         {beneficiaries.length === 0 ? (
-          <p>No beneficiaries found.</p>
+          <p className="beneficiary-empty">No beneficiaries found.</p>
         ) : (
           <ul className="beneficiary-list">
             {beneficiaries.map((ben) => (
@@ -237,86 +236,6 @@ const BeneficiaryList = () => {
           </ul>
         )}
 
-        <style jsx>{`
-          .beneficiary-list-container {
-            padding: 24px;
-            max-width: 800px;
-            margin: 40px auto 0 auto; /* Top margin added */
-            background: var(--bg-glass, rgba(255, 255, 255, 0.05));
-            border-radius: 16px;
-            box-shadow: var(--shadow-rainbow, 0 4px 30px rgba(0, 0, 0, 0.1));
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-          }
-
-          .beneficiary-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-          }
-
-          .beneficiary-item {
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            margin: 12px 0;
-            padding: 16px;
-            border-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: var(--bg-glass, #f9f9f9);
-            box-shadow: var(--shadow-md, 0 2px 6px rgba(0, 0, 0, 0.05));
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-          }
-
-          .beneficiary-item:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg, 0 6px 12px rgba(0, 0, 0, 0.12));
-          }
-
-          .beneficiary-info {
-            flex: 1;
-            color: var(--text-primary, #2c3e50);
-            font-size: 16px;
-          }
-
-          .remove-button {
-            background-color: var(--accent5, #e74c3c);
-            color: #fff;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-            font-size: 14px;
-          }
-
-          .remove-button:hover {
-            background-color: #c0392b;
-          }
-
-          .error-message {
-            color: var(--accent3, #e74c3c);
-            padding: 12px;
-            margin: 16px 0;
-            border: 1px solid var(--accent3, #e74c3c);
-            border-radius: 8px;
-            background-color: rgba(231, 76, 60, 0.1);
-            font-weight: 500;
-          }
-
-          @media (max-width: 600px) {
-            .beneficiary-item {
-              flex-direction: column;
-              align-items: flex-start;
-            }
-
-            .remove-button {
-              margin-top: 10px;
-              align-self: flex-end;
-            }
-          }
-        `}</style>
       </div>
     </>
   );

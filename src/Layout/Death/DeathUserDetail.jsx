@@ -6,6 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 import CryptoJS from "crypto-js";
 import "./DeathUserDetails.css";
 
+import { getApiUrl } from "../../config/env";
+
 // Modal component for showing credentials
 const CredentialsModal = ({ credentials, onClose, onDownload, onCopy }) => {
   return (
@@ -19,7 +21,7 @@ const CredentialsModal = ({ credentials, onClose, onDownload, onCopy }) => {
         </div>
         <div className="modal-body">
           <div className="credential">
-            <label htmlFor="uuidInput">Your ID</label>
+            <label htmlFor="uuidInput" className="credential__label">Your ID</label>
             <div className="credential__input-group">
               <input
                 id="uuidInput"
@@ -37,7 +39,7 @@ const CredentialsModal = ({ credentials, onClose, onDownload, onCopy }) => {
             </div>
           </div>
           <div className="credential">
-            <label htmlFor="passwordInput">Your Password</label>
+            <label htmlFor="passwordInput" className="credential__label">Your Password</label>
             <div className="credential__input-group">
               <input
                 id="passwordInput"
@@ -194,12 +196,11 @@ const UserDetailsForm = () => {
       };
 
       await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/deathusers`,
+        `${getApiUrl("")}/api/deathusers`,
         userDetails,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
@@ -254,8 +255,12 @@ const UserDetailsForm = () => {
   return (
     <>
       <div className="user-details-page-wrapper">
-        <h2>Enter Your Details</h2>
-        <form className="form" onSubmit={handleSubmit}>
+        <h2 className="user-details-title">Enter Your Details</h2>
+        <p className="user-details-subtitle">
+          Complete your profile once. We will generate secure credentials after submission.
+        </p>
+
+        <form className="form form--grid" onSubmit={handleSubmit}>
           <div className="form__group">
             <label className="form__label">First Name</label>
             <input
@@ -305,9 +310,12 @@ const UserDetailsForm = () => {
               className="form__input"
             />
           </div>
-          <button type="submit" disabled={loading} className="btn btn--primary btn--block">
-            {loading ? "Submitting..." : "Submit Details"}
-          </button>
+
+          <div className="form__actions">
+            <button type="submit" disabled={loading} className="btn btn--primary btn--block">
+              {loading ? "Submitting..." : "Submit Details"}
+            </button>
+          </div>
         </form>
       </div>
 

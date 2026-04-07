@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CryptoJS from "crypto-js";
+import { getApiUrl } from "../../config/env";
+
 import "./DecryptFile.css"; // Assuming you have a CSS file for styles
 import { supabase } from "./supabaseClient"; // Adjust the import path as necessary
 
@@ -60,10 +62,9 @@ const DecryptFile = () => {
         uuid.trim() + "Vedant_Kasar" + password.trim()
       );
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/deathusers/findHashToken/${hashedToken}`,
+        `${getApiUrl("")}/api/deathusers/findHashToken/${hashedToken}`,
         {
                 headers: {
-                  Authorization: `Bearer ${accessToken}`,
                  },
               }
       );
@@ -72,10 +73,9 @@ const DecryptFile = () => {
         setMessage({ text: "Validated successfully.", isSuccess: true });
         try {
           const userIdResponse = await axios.get(
-            `${import.meta.env.VITE_API_URL}/api/deathusers/findUUIDByHashuuid/${hashedToken}`,
+            `${getApiUrl("")}/api/deathusers/findUUIDByHashuuid/${hashedToken}`,
             {
                 headers: {
-                  Authorization: `Bearer ${accessToken}`,
                  },
               }
           );
@@ -109,10 +109,9 @@ const DecryptFile = () => {
       try {
         if (!userID) return;
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/deathusers/getKey/${userID}`,
+          `${getApiUrl("")}/api/deathusers/getKey/${userID}`,
           {
                 headers: {
-                  Authorization: `Bearer ${accessToken}`,
                  },
               }
         );
@@ -134,10 +133,9 @@ const DecryptFile = () => {
       try {
         if (!userID) return;
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/deathusers/listOfFiles/${userID}`,
+          `${getApiUrl("")}/api/deathusers/listOfFiles/${userID}`,
           {
                 headers: {
-                  Authorization: `Bearer ${accessToken}`,
                  },
               }
         );
@@ -466,7 +464,7 @@ const DecryptFile = () => {
         throw new Error("Invalid UUID or password. Cannot decrypt shared files.");
       }
 
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/shared-file/getAllFiles/${userID}`);
+      const response = await axios.get(`${getApiUrl("")}/shared-file/getAllFiles/${userID}`);
 
       if (!response.data || !Array.isArray(response.data)) {
         throw new Error("Invalid response format from backend.");

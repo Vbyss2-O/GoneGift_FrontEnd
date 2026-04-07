@@ -23,7 +23,7 @@
 .logo-glitch::before {
   left: -2px;
   /* Adding multiple text-shadows for more color! */
-  text-shadow: 
+  text-shadow:
     1px 0 #ff00c1, /* Magenta/Red */
     2px 0 #ffeb3b, /* Yellow */
     -1px 0 #00ffff; /* Aqua */
@@ -35,7 +35,7 @@
 .logo-glitch::after {
   left: 2px;
   /* Adding multiple text-shadows for more color! */
-  text-shadow: 
+  text-shadow:
     -1px 0 #00ffc1, /* Cyan/Blue */
     -2px 0 #76ff03, /* Lime Green */
     1px 0 #ff6f00; /* Orange */

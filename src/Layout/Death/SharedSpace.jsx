@@ -5,6 +5,7 @@ import "./SharedSpace.css";
 import { supabase } from "./supabaseClient";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../components/BackButton"; // Import the BackButton component
+import { getApiUrl, getAppUrl } from "../../config/env";
 
 const SharedSpace = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -19,32 +20,7 @@ const SharedSpace = () => {
   const [token, setToken] = useState("");
   const [totalSharedSpace, setTotalSharedSpace] = useState(0);
   const [message, setMessage] = useState("");
-  const [isGenerateDisabled, setIsGenerateDisabled] = useState(false);
-  const [cooldownTime, setCooldownTime] = useState(0);
   const navigate = useNavigate();
-  const [accessToken , setAccessToken] = useState(null);
-  
-useEffect(() => {
-  const initAuth = async () => {
-    const { data, error } = await supabase.auth.getSession();
-    if (error) {
-      console.error("Error getting session:", error);
-      return;
-    }
-
-    const accessToken = data.session?.access_token;
-
-    if (accessToken) {
-      setAccessToken(accessToken);
-    } else {
-      console.warn("No access token found—user probably signed out.");
-    }
-  };
-
-  initAuth();
-}, []);
-  // Cooldown duration in milliseconds (60 seconds)
-  const COOLDOWN_DURATION = 60*1000*60*24; // 0.5 min
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -65,15 +41,9 @@ useEffect(() => {
   useEffect(() => {
     const fetchCount = async () => {
       try {
-        // Ensure currentUser.id is available before making the request
         if (currentUser && currentUser.id) {
           const response = await axios.get(
-            `${import.meta.env.VITE_API_URL}/shared-file/totalSpaces/${currentUser.id}`,
-            {
-                headers: {
-                  Authorization: `Bearer ${accessToken}`,
-                 },
-              }
+            getApiUrl(`/shared-file/totalSpaces/${currentUser.id}`)
           );
           setTotalSharedSpace(response.data);
         }
@@ -86,44 +56,10 @@ useEffect(() => {
     }
   }, [currentUser]);
 
-  // Check cooldown on component mount
-  useEffect(() => {
-    const checkCooldown = () => {
-      const cooldownEnd = localStorage.getItem("generateTokenCooldown");
-      if (cooldownEnd) {
-        const timeLeft = parseInt(cooldownEnd, 10) - Date.now();
-        if (timeLeft > 0) {
-          setIsGenerateDisabled(true);
-          setCooldownTime(Math.ceil(timeLeft / 1000));
-          const timer = setInterval(() => {
-            const remaining = parseInt(cooldownEnd, 10) - Date.now();
-            if (remaining <= 0) {
-              setIsGenerateDisabled(false);
-              setCooldownTime(0);
-              localStorage.removeItem("generateTokenCooldown");
-              clearInterval(timer);
-            } else {
-              setCooldownTime(Math.ceil(remaining / 1000));
-            }
-          }, 1000);
-          return () => clearInterval(timer);
-        } else {
-          localStorage.removeItem("generateTokenCooldown");
-        }
-      }
-    };
-    checkCooldown();
-  }, []);
-
   const getEncryptedKey = async (userId) => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/deathusers/getKey/${userId}`,
-        {
-                headers: {
-                  Authorization: `Bearer ${accessToken}`,
-                 },
-              }
+        getApiUrl(`/api/deathusers/getKey/${userId}`)
       );
       if (response.status === 200 && response.data) {
         // Assuming response.data directly contains the encrypted key string
@@ -189,17 +125,13 @@ useEffect(() => {
       setMessage("ID and password are required.");
       return;
     }
+
     setLoading(true);
     try {
       const input = uuid.trim() + "Vedant_Kasar" + password.trim();
       const hashedToken = await hashWithSalt(input);
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/deathusers/findHashToken/${hashedToken}`,
-        {
-                headers: {
-                  Authorization: `Bearer ${accessToken}`,
-                 },
-              }
+        getApiUrl(`/api/deathusers/findHashToken/${hashedToken}`)
       );
       if (response.status === 200) {
         setIsValidated(true);
@@ -254,31 +186,13 @@ useEffect(() => {
     }
   };
 
-  // Modified generateTokenAndSave to include cooldown
+  // Generate token and persist metadata
   const generateTokenAndSave = async () => {
     try {
       if (!currentUser || !encryptedAESKeyData) {
         setMessage("Please validate ID and ensure key data is fetched.");
         return;
       }
-
-      // Start cooldown
-      const cooldownEnd = Date.now() + COOLDOWN_DURATION;
-      localStorage.setItem("generateTokenCooldown", cooldownEnd.toString());
-      setIsGenerateDisabled(true);
-      setCooldownTime(Math.ceil(COOLDOWN_DURATION / 1000));
-
-      const timer = setInterval(() => {
-        const timeLeft = cooldownEnd - Date.now();
-        if (timeLeft <= 0) {
-          setIsGenerateDisabled(false);
-          setCooldownTime(0);
-          localStorage.removeItem("generateTokenCooldown");
-          clearInterval(timer);
-        } else {
-          setCooldownTime(Math.ceil(timeLeft / 1000));
-        }
-      }, 1000);
 
       // Decrypt the AES key
       const decryptedAESKey = await decryptKey(
@@ -311,15 +225,11 @@ useEffect(() => {
 
       try {
         await axios.post(
-          `${import.meta.env.VITE_API_URL}/shared-file/addToken`,
+          getApiUrl("/shared-file/addToken"),
           tokenMetadata,
           {
             headers: {
               "Content-Type": "application/json",
-              
-                
-                  Authorization: `Bearer ${accessToken}`
-                 
             },
           }
         );
@@ -351,12 +261,12 @@ useEffect(() => {
         setMessage("No token generated to copy.");
         return;
       }
+
       const encodedToken = encodeURIComponent(token);
-      await navigator.clipboard.writeText(
-        `${import.meta.env.VITE_API_URL}/shared-file/verify?token=${encodedToken}`
-      );
+      const uploadLink = getAppUrl(`/sharedSpace/upload/${encodedToken}`);
+      await navigator.clipboard.writeText(uploadLink);
       setCopiedToken(true);
-      setMessage("Token URL copied to clipboard!");
+      setMessage("Upload link copied to clipboard!");
     } catch (err) {
       console.error("Copy failed:", err);
       setMessage("Failed to copy token.");
@@ -383,12 +293,11 @@ useEffect(() => {
     <BackButton />
     <div className="shared-container">
       <h2>Secure Shared Space</h2>
-      <div className="total-space" style={{ color: "Black" }}>
+      <div className="total-space">
         Total Spaces: <strong>{totalSharedSpace ?? "..."}</strong>
       </div>
-      <br />
       <div className="form-box">
-        <label style={{color : "Black"}}>ID</label>
+        <label>ID</label>
         <input
           type="password"
           placeholder="Enter ID"
@@ -397,7 +306,7 @@ useEffect(() => {
           disabled={loading || isValidated} // Disable after validation
         />
 
-        <label style={{color : "black"}}>Password</label>
+        <label>Password</label>
         <input
           type="password"
           placeholder="Enter Password"
@@ -417,19 +326,14 @@ useEffect(() => {
         {message && <p className="message">{message}</p>}
       </div>
 
+      {(isValidated || token || generatedPassword) && (
       <div className="token-section">
         {isValidated && ( // Only show "Generate Token and Save" button after validation
           <button 
             onClick={generateTokenAndSave} 
-            disabled={!currentUser || isGenerateDisabled} 
-            style={{ 
-              background: isGenerateDisabled ? "grey" : "green", 
-              color: "white" 
-            }}
+            disabled={!currentUser}
           >
-            {isGenerateDisabled 
-              ? `Wait ${cooldownTime}s to Generate Token & Save`
-              : "Generate Token & Save Shared Space"}
+            Generate Token & Save Shared Space
           </button>
         )}
 
@@ -451,6 +355,7 @@ useEffect(() => {
           </div>
         )}
       </div>
+      )}
     </div>
     </>
   );

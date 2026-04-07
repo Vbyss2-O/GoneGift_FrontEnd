@@ -1,4 +1,4 @@
-.filelist-list-container {
+.beneficiary-list-container {
   max-width: 1080px;
   margin: 2.5rem auto;
   padding: 2.5rem;
@@ -9,45 +9,43 @@
   box-shadow: var(--gg-shadow);
 }
 
-.filelist-welcome-header {
-  margin: 0 0 1rem;
+.beneficiary-list-container h2,
+.beneficiary-list-container h3 {
   color: #111111;
-  font-size: 1.95rem;
+}
+
+.beneficiary-list-container h2 {
+  margin: 0 0 0.55rem;
+  font-size: 1.9rem;
   font-weight: 700;
 }
 
-.filelist-files-header {
-  margin: 1.1rem 0 0.45rem;
-  color: #111111;
+.beneficiary-list-container h3 {
+  margin: 0.25rem 0 1rem;
   font-size: 1.2rem;
   font-weight: 700;
 }
 
-.filelist-note {
-  color: #4d5968;
-  margin-bottom: 0.9rem;
-}
-
-.filelist-no-files {
-  margin: 0.8rem 0;
-  padding: 0.75rem 0.85rem;
-  border: 1px solid var(--gg-border);
+.beneficiary-empty {
+  margin: 0.85rem 0;
+  padding: 0.95rem 1rem;
+  border: 1px solid #d9e0e8;
   border-radius: 10px;
   background: #f7f8fa;
   color: #4d5968;
 }
 
-.filelist-file-list {
+.beneficiary-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.filelist-file-item {
+.beneficiary-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 0.8rem;
+  gap: 0.75rem;
   margin: 0.75rem 0;
   padding: 1rem;
   border: 1px solid var(--gg-border);
@@ -55,19 +53,12 @@
   background: #f7f8fa;
 }
 
-.filelist-file-info {
-  min-width: 0;
-  flex: 1;
-  text-align: left;
+.beneficiary-info {
   color: #1a232d;
+  line-height: 1.55;
 }
 
-.filelist-file-name,
-.filelist-file-type-display {
-  word-break: break-word;
-}
-
-.filelist-delete-button {
+.remove-button {
   border: none;
   border-radius: var(--gg-btn-radius);
   min-height: var(--gg-btn-height);
@@ -77,35 +68,26 @@
   font-weight: 600;
   font-size: var(--gg-btn-font-size);
   cursor: pointer;
-  flex-shrink: 0;
 }
 
-.filelist-separator {
-  margin: 1.25rem 0;
-  border: 0;
-  border-top: 1px solid var(--gg-border);
-}
-
-.filelist-loading-container {
-  min-height: 40vh;
-  display: grid;
-  place-items: center;
-  color: var(--gg-muted);
+.error-message {
+  margin: 0.8rem 0;
+  padding: 0.7rem 0.85rem;
+  border-radius: 10px;
+  color: var(--gg-danger);
+  border: 1px solid #f3bdbd;
+  background: #fdeeee;
 }
 
 @media (max-width: 768px) {
-  .filelist-list-container {
+  .beneficiary-list-container {
     margin: 1.25rem;
     padding: 1.25rem;
     min-height: auto;
   }
 
-  .filelist-file-item {
+  .beneficiary-item {
     flex-direction: column;
     align-items: stretch;
-  }
-
-  .filelist-delete-button {
-    width: 100%;
   }
 }

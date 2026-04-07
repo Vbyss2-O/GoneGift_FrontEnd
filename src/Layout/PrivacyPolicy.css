@@ -1,80 +1,68 @@
 .privacypolicy-container {
-  max-width: 800px;
-  margin: 3rem auto;
-  padding: 40px 28px;
-  background: var(--bg-glass, rgba(255,255,255,0.85));
-  border-radius: var(--radius-xl, 1.5rem);
-  box-shadow: var(--shadow-rainbow, 0 5px 20px rgba(0,0,0,0.08));
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  border: 1px solid rgba(255,255,255,0.2);
-  position: relative;
+  max-width: var(--gg-page-width);
+  margin: 2.75rem auto;
+  padding: 2rem;
+  background: var(--gg-bg-soft);
+  border: 1px solid var(--gg-border);
+  border-radius: var(--gg-radius);
+  box-shadow: var(--gg-shadow);
 }
 
 .privacypolicy-title {
   font-size: 2rem;
-  font-weight: 700;
   text-align: center;
-  margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, var(--primary, #a855f7), var(--secondary, #ec4899), var(--accent, #10b981));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  margin-bottom: 1.25rem;
+  color: var(--gg-primary);
 }
 
 .privacypolicy-section-title {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 600;
-  color: var(--primary, #a855f7);
-  margin-top: 2rem;
-  margin-bottom: 0.7rem;
+  color: var(--gg-primary);
+  margin-top: 1.25rem;
+  margin-bottom: 0.45rem;
 }
 
 .privacypolicy-list {
-  list-style-type: disc;
+  list-style: disc;
   padding-left: 1.5rem;
-  font-size: 1.08rem;
+  font-size: 1rem;
   line-height: 1.7;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1rem;
 }
 
 .privacypolicy-list li {
-  margin-bottom: 0.7rem;
-  color: #444;
+  margin-bottom: 0.5rem;
+  color: var(--gg-text);
 }
 
 .privacypolicy-container strong {
-  color: var(--primary, #a855f7);
-  font-weight: 700;
+  color: var(--gg-primary);
 }
 
 .privacypolicy-container a {
-  color: var(--primary, #a855f7);
+  color: var(--gg-primary);
   text-decoration: underline;
-  font-weight: 500;
 }
 
 .privacypolicy-updated {
-  margin-top: 2rem;
+  margin-top: 1.5rem;
   font-style: italic;
-  color: #666;
+  color: var(--gg-muted);
   text-align: right;
-  font-size: 1rem;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .privacypolicy-container {
-    padding: 16px 4vw;
+    margin: 1.25rem;
+    padding: 1.25rem;
   }
+
   .privacypolicy-title {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
   }
+
   .privacypolicy-section-title {
     font-size: 1.05rem;
-  }
-  .privacypolicy-list {
-    font-size: 0.97rem;
-  }
-  .privacypolicy-updated {
-    font-size: 0.95rem;
   }
 }

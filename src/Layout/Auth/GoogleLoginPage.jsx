@@ -4,6 +4,7 @@ import { supabase } from "../Death/supabaseClient";
 import "./GoogleLoginPage.css"; // Import your CSS styles
 import { Link } from "react-router-dom";
 import GoneGiftLogo from "../components/GoneGiftLogo";
+import { getAppUrl } from "../../config/env";
 
 const GoogleLoginPage = () => {
   const navigate = useNavigate();
@@ -120,10 +121,21 @@ const GoogleLoginPage = () => {
   const handleGoogleLogin = async () => {
     setLoggingIn(true);
     try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      // If user already has an active session, stay in local app flow.
+      if (session) {
+        await handlePostLogin();
+        return;
+      }
+
+      const redirectUrl = getAppUrl("/login");
       await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${window.location.origin}/login`,
+          redirectTo: redirectUrl,
           scopes: "email profile",
         },
       });
