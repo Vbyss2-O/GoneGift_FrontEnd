@@ -99,7 +99,7 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: 16px;
+  font-size: 12px;
   line-height: 1.5;
 }
 
@@ -908,7 +908,7 @@ body {
 
 /* Large Desktop Screens */
 @media (min-width: 1920px) {
-  html { font-size: 18px; }
+  html { font-size: 13px; }
   
   .sidebar { width: 320px; }
   .main-content { margin-left: 320px; padding: var(--space-2xl); }
@@ -956,7 +956,7 @@ body {
 /* Mobile Phones (max-width: 767px) */
 @media (max-width: 767px) {
   html { 
-    font-size: 14px; /* Slightly smaller base font for compact mobile view */
+    font-size: 11px; /* Slightly smaller base font for compact mobile view */
   }
 
   .dashboard-container {

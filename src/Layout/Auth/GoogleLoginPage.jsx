@@ -146,6 +146,17 @@ const GoogleLoginPage = () => {
     }
   };
 
+  if (loading || loggingIn) {
+    return (
+      <div className="session-loading-screen" role="status" aria-live="polite">
+        <div className="session-loading-spinner"></div>
+        <p className="session-loading-text">
+          {loggingIn ? "Authenticating..." : "Checking session..."}
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="login-container">
       {/* Header */}
@@ -207,15 +218,7 @@ const GoogleLoginPage = () => {
 
         <div className="login-right">
           <div className="login-card">
-            {loading || loggingIn ? (
-              <div className="loading-container">
-                <div className="spinner"></div>
-                <p className="loading-text">
-                  {loggingIn ? "Authenticating..." : "Checking session..."}
-                </p>
-              </div>
-            ) : (
-              <>
+            <>
                 <div className="login-header">
                   <h1 className="login-title">Sign in to continue</h1>
                   <p className="login-subtitle">
@@ -274,8 +277,7 @@ const GoogleLoginPage = () => {
                 </div>
 
                 <div className="trust-indicators"></div>
-              </>
-            )}
+            </>
           </div>
         </div>
       </main>
