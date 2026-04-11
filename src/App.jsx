@@ -27,7 +27,6 @@ import HelpCenterForm from "./Layout/ProblemSubmit";
 import CreateDelivery from "./Layout/Death/CreateDelivery";
 import PendingDelivery from "./Layout/Death/PendingDelivery";
 
-
 function App() {
   return (
     <Routes>
