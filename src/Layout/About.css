@@ -1,30 +1,51 @@
 .aboutgonegift-container {
   max-width: var(--gg-page-width);
   margin: 2.75rem auto;
-  padding: 2rem;
+  padding: 2.25rem 2.5rem;
   background: var(--gg-bg-soft);
   border: 1px solid var(--gg-border);
-  border-radius: var(--gg-radius);
-  box-shadow: var(--gg-shadow);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(13, 33, 60, 0.08);
 }
 
 .aboutgonegift-title {
+  margin: 0 0 0.75rem;
+  font-size: 1.75rem;
+  color: #1f2a37;
+  text-align: left;
+  font-weight: 700;
+  border-bottom: 1px solid var(--gg-border);
+  padding-bottom: 0.75rem;
+}
+
+.aboutgonegift-intro {
   margin: 0 0 1.25rem;
-  font-size: 2rem;
-  color: var(--gg-primary);
-  text-align: center;
+  color: var(--gg-muted);
+  font-size: 1rem;
+  line-height: 1.65;
 }
 
 .aboutgonegift-content {
-  color: var(--gg-text);
-  font-size: 1.03rem;
-  line-height: 1.7;
+  color: #243447;
+  font-size: 1rem;
+  line-height: 1.65;
   display: grid;
-  gap: 1rem;
+  gap: 1.25rem;
+}
+
+.aboutgonegift-list {
+  list-style: disc;
+  list-style-position: outside;
+  padding-left: 1.5rem;
+  margin: 0;
+}
+
+.aboutgonegift-list li {
+  margin-bottom: 0.95rem;
 }
 
 .aboutgonegift-content strong {
-  color: var(--gg-primary);
+  color: #1f2a37;
 }
 
 .aboutgonegift-signature {
@@ -35,11 +56,15 @@
 
 @media (max-width: 768px) {
   .aboutgonegift-container {
-    margin: 1.25rem;
+    margin: 1rem;
     padding: 1.25rem;
   }
 
   .aboutgonegift-title {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+  }
+
+  .aboutgonegift-list {
+    padding-left: 1.25rem;
   }
 }

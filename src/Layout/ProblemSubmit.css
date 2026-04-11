@@ -12,7 +12,7 @@
   font-size: 2rem;
   text-align: center;
   margin-bottom: 1.25rem;
-  color: var(--gg-primary);
+  color: #111111;
 }
 
 .problemform-form {
@@ -29,7 +29,7 @@
 
 .problemform-label {
   font-weight: 600;
-  color: var(--gg-primary);
+  color: #111111;
 }
 
 .problemform-input,
@@ -53,8 +53,8 @@
 
 .problemform-input:focus,
 .problemform-textarea:focus {
-  border-color: var(--gg-primary);
-  box-shadow: 0 0 0 3px rgba(31, 78, 140, 0.14);
+  border-color: #111111;
+  box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.12);
 }
 
 .problemform-submit-btn {
