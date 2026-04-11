@@ -197,9 +197,9 @@ const Dashboard = () => {
     <div className="dashboard-container">
       <aside className="sidebar">
         <div className="sidebar-header">
-          <h2>
-            <GoneGiftLogo/>
-          </h2>
+          <div className="sidebar-brand">
+            <GoneGiftLogo />
+          </div>
 
         </div>
 

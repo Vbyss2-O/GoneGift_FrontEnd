@@ -154,10 +154,32 @@ body {
 .sidebar-header {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-md);
   padding-bottom: var(--space-xl);
   border-bottom: 1px solid var(--border-light);
   margin-bottom: var(--space-xl);
+}
+
+.sidebar-brand {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.sidebar-brand .gonegift-logo {
+  width: 100%;
+  justify-content: flex-start;
+  padding: 4px 0 4px 8px;
+}
+
+.sidebar-brand .gonegift-logo-image {
+  width: 40px;
+  height: 40px;
+}
+
+.sidebar-brand .logo-glitch {
+  font-size: 2.15rem;
 }
 
 .logo-icon {
