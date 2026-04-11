@@ -362,5 +362,4 @@ const GoogleLoginPage = () => {
     </div>
   );
 };
-
 export default GoogleLoginPage;

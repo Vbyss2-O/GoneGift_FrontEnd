@@ -33,8 +33,8 @@
 }
 
 .form--grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 0.95rem;
 }
 
@@ -66,7 +66,6 @@
 }
 
 .form__actions {
-  grid-column: 1 / -1;
   margin-top: 0.35rem;
 }
 
@@ -116,7 +115,7 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(18, 33, 52, 0.48);
+  background: radial-gradient(circle at center, rgba(18, 33, 52, 0.36), rgba(18, 33, 52, 0.62));
   display: grid;
   place-items: center;
   z-index: 1000;
@@ -124,16 +123,29 @@
 }
 
 .modal-content {
-  width: min(860px, 100%);
+  width: min(720px, 92vw);
+  aspect-ratio: 1 / 1;
+  max-height: 45vh;
+  overflow: auto;
   background: #fff;
   border-radius: var(--gg-radius);
   border: 1px solid var(--gg-border);
   box-shadow: var(--gg-shadow);
   padding: 2rem;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
 
 .modal-subheader {
   color: var(--gg-muted);
+}
+
+.modal-content--confirm {
+  width: min(760px, 94vw);
+  aspect-ratio: auto;
+  max-height: 88vh;
+  padding: 2.2rem;
+  grid-template-rows: auto auto;
 }
 
 .modal-header h3,
@@ -142,10 +154,59 @@
   color: #111111;
 }
 
+.modal-content--confirm .modal-header h4 {
+  font-size: 2rem;
+  font-weight: 800;
+  text-align: center;
+}
+
 .modal-body {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.95rem;
+  gap: 1rem;
+  align-content: start;
+}
+
+.modal-content--confirm .modal-body {
+  grid-template-columns: 1fr;
+}
+
+.modal-content--confirm .modal-body p {
+  margin: 0.3rem 0 0;
+  border-radius: 10px;
+  padding: 1rem 1.05rem;
+  border: 1px solid #e11d48;
+  background:
+    linear-gradient(120deg, rgba(225, 29, 72, 0.12) 0%, rgba(225, 29, 72, 0.04) 45%, rgba(225, 29, 72, 0.12) 100%),
+    #fff1f2;
+  color: #be123c;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+  animation: warningPulse 1.4s ease-in-out infinite;
+}
+
+.modal-content--confirm .modal-body p::before {
+  content: "NOTICE";
+  display: inline-block;
+  margin-right: 0.5rem;
+  color: #9f1239;
+  font-weight: 800;
+}
+
+.modal-content--confirm .modal-body p::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -40%;
+  width: 32%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  animation: noticeSweep 2.1s linear infinite;
 }
 
 .modal-footer {
@@ -181,12 +242,37 @@
 
 .warning-box {
   grid-column: 1 / -1;
-  margin-top: 0.2rem;
+  margin-top: 0.4rem;
   border-radius: 10px;
-  padding: 0.75rem;
-  border: 1px solid #f2d8a8;
-  background: #fff7e8;
-  color: #8f5f12;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid #e11d48;
+  background:
+    linear-gradient(120deg, rgba(225, 29, 72, 0.12) 0%, rgba(225, 29, 72, 0.04) 45%, rgba(225, 29, 72, 0.12) 100%),
+    #fff1f2;
+  color: #be123c;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  position: relative;
+  overflow: hidden;
+  animation: warningPulse 1.4s ease-in-out infinite;
+}
+
+.warning-box::before {
+  content: "NOTICE";
+  margin-right: 0.5rem;
+  color: #9f1239;
+  font-weight: 800;
+}
+
+.warning-box::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -40%;
+  width: 32%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  animation: noticeSweep 2.1s linear infinite;
 }
 
 .loading-container {
@@ -211,6 +297,25 @@
   }
 }
 
+@keyframes warningPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.18);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(225, 29, 72, 0.06);
+  }
+}
+
+@keyframes noticeSweep {
+  0% {
+    left: -40%;
+  }
+  100% {
+    left: 112%;
+  }
+}
+
 @media (max-width: 768px) {
   .user-details-page-wrapper {
     margin: 1.25rem;
@@ -220,15 +325,32 @@
   }
 
   .form--grid {
-    grid-template-columns: 1fr;
+    gap: 0.95rem;
   }
 
   .form__actions {
-    grid-column: auto;
+    margin-top: 0.35rem;
   }
 
   .modal-content {
+    width: 100%;
+    aspect-ratio: auto;
+    max-height: 92vh;
     padding: 1.2rem;
+  }
+
+  .modal-content--confirm {
+    width: 100%;
+    max-height: 92vh;
+    padding: 1.2rem;
+  }
+
+  .modal-content--confirm .modal-header h4 {
+    font-size: 1.5rem;
+  }
+
+  .modal-content--confirm .modal-body p {
+    font-size: 1rem;
   }
 
   .modal-body {

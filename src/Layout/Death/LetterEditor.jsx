@@ -283,15 +283,17 @@ const LetterEditor = () => {
             />
           </div>
 
-          <div className="letter-button-row">
-            <button
-              className="letter-btn"
-              onClick={handleSave}
-              disabled={isBusy || !isUuidValid || !decryptedKey || !letterTitle || !letterContent}
-            >
-              {saveLoading ? "Saving..." : "Save Letter"}
-            </button>
-          </div>
+          {isUuidValid && (
+            <div className="letter-button-row">
+              <button
+                className="letter-btn"
+                onClick={handleSave}
+                disabled={isBusy || !isUuidValid || !decryptedKey || !letterTitle || !letterContent}
+              >
+                {saveLoading ? "Saving..." : "Save Letter"}
+              </button>
+            </div>
+          )}
 
           {message && (
             <p className={`letter-message ${isSuccess ? "success" : "error"}`}>

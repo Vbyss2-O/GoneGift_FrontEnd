@@ -385,31 +385,33 @@ const FileUpload = () => {
             )}
           </button>
         </div>
-        <div className="upload-section">
-          <div className="upload-zone">
-            <span className="upload-zone-icon" aria-hidden="true">+</span>
-            <p className="upload-zone-text">
-              {file
-                ? `Selected: ${file.name} (${(file.size / 1024).toFixed(2)} KB)`
-                : "Drag & drop or click to upload an image, video, or PDF"}
-            </p>
-            <input
-              type="file"
-              onChange={handleFileChange}
-              accept="image/*,video/*,application/pdf"
-              disabled={isBusy || !isUuidValid}
-            />
+        {isUuidValid && (
+          <div className="upload-section">
+            <div className="upload-zone">
+              <span className="upload-zone-icon" aria-hidden="true">+</span>
+              <p className="upload-zone-text">
+                {file
+                  ? `Selected: ${file.name} (${(file.size / 1024).toFixed(2)} KB)`
+                  : "Drag & drop or click to upload an image, video, or PDF"}
+              </p>
+              <input
+                type="file"
+                onChange={handleFileChange}
+                accept="image/*,video/*,application/pdf"
+                disabled={isBusy || !isUuidValid}
+              />
+            </div>
+            <div className="button-container">
+              <button
+                onClick={handleSubmit}
+                disabled={isBusy || !file || !isUuidValid || !decryptedKey}
+                className={`upload-button ${uploadLoading ? "loading" : ""}`}
+              >
+                {uploadLoading ? "Encrypting & Uploading..." : "Upload Encrypted File"}
+              </button>
+            </div>
           </div>
-          <div className="button-container">
-            <button
-              onClick={handleSubmit}
-              disabled={isBusy || !file || !isUuidValid || !decryptedKey}
-              className={`upload-button ${uploadLoading ? "loading" : ""}`}
-            >
-              {uploadLoading ? "Encrypting & Uploading..." : "Upload Encrypted File"}
-            </button>
-          </div>
-        </div>
+        )}
         {message.text && (
           <p
             className={`status-message ${
