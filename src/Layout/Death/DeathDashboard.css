@@ -908,10 +908,10 @@ body {
 
 /* Large Desktop Screens */
 @media (min-width: 1920px) {
-  html { font-size: 13px; }
+  html { font-size: 12px; }
   
-  .sidebar { width: 320px; }
-  .main-content { margin-left: 320px; padding: var(--space-2xl); }
+  .sidebar { width: 300px; }
+  .main-content { margin-left: 300px; padding: var(--space-xl); }
   
   .dashboard-grid {
     grid-template-columns: repeat(4, 1fr);
@@ -937,19 +937,19 @@ body {
 
 /* Laptop Screens */
 @media (min-width: 1024px) and (max-width: 1439px) {
-  .sidebar { width: 260px; }
+  .sidebar { width: 240px; }
   .main-content { 
-    margin-left: 260px; 
-    padding: var(--space-xl); 
+    margin-left: 240px; 
+    padding: var(--space-lg); 
   }
   
   .dashboard-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--space-lg);
   }
   
   .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--space-lg);
   }
 }
