@@ -18,6 +18,7 @@ const HERO_IMAGES = [
   "https://images.pexels.com/photos/8307628/pexels-photo-8307628.jpeg?auto=compress&cs=tinysrgb&w=1600&h=1000&fit=crop",
 ];
 
+
 const GoogleLoginPage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
